@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_marginTop="1dp"
+    android:layout_height="80dp">
+
+  <ImageView
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_gravity="center_vertical"
+      android:layout_marginLeft="10dp"
+      android:id="@+id/headImage"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:singleLine="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            android:id="@+id/Meessage_username"
+            android:textStyle="bold"
+            android:text="Username"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:textSize="12sp"
+            android:id="@+id/Message_time"
+            android:text="20/09/26"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/latest_message"
+            android:text="最新消息"
+            android:singleLine="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_below="@+id/Meessage_username"
+            android:textSize="13sp"/>
+    </RelativeLayout>
+
+
+
+</LinearLayout>

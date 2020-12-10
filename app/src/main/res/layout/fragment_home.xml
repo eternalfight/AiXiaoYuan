@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            >
+            <TextView
+                android:id="@+id/searchLan"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="36dp"
+                android:gravity="left|center_vertical"
+                android:layout_margin="10dp"
+                android:paddingLeft="60dp"
+                android:background="@drawable/button_bg"
+                android:drawablePadding="1dp"
+                android:text="请输入关键字"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textSize="13dp" >
+            </TextView>
+
+            <ImageView
+                android:layout_marginTop="13dp"
+                android:layout_marginLeft="17dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/soushuo"
+                >
+            </ImageView>
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/search_btn_back"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/blue_button_background"
+            android:text="搜索"
+            android:textColor="#333333" />
+
+    </LinearLayout>
+
+
+    <com.tita.aixiaoyuan.app.widget.NestedScrollLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <com.zhpan.bannerview.BannerViewPager
+                android:id="@+id/banner_view"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_height="@dimen/dp_150"
+                app:bvp_indicator_slide_mode="worm"
+                app:bvp_page_style="multi_page" />
+
+            <com.tita.aixiaoyuan.app.widget.FixedDataScrollDisabledRecyclerView
+                android:id="@+id/combo_top_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tablayout1"
+                android:layout_gravity="top"
+                app:tabIndicatorGravity="bottom"
+                app:tabSelectedTextColor="#FF9800"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorColor="#FF9800"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+            </com.google.android.material.tabs.TabLayout>
+
+
+            <com.tita.aixiaoyuan.Chat.widget.AutofitViewPager
+                android:id="@+id/viewpager_view1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </com.tita.aixiaoyuan.app.widget.NestedScrollLayout>
+</LinearLayout>

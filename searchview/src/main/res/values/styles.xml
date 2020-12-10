@@ -1,0 +1,12 @@
+<resources>
+
+    <declare-styleable name="FakeBoldTextView">
+        <attr name="boldStyle">
+            <enum name="normal" value="1" />
+            <enum name="medium" value="2" />
+            <enum name="bold" value="3" />
+        </attr>
+    </declare-styleable>
+
+
+</resources>

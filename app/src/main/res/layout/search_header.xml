@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:clickable="true"
+        android:background="@drawable/search_bar_bg"
+        android:id="@+id/rlSearchBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/searchBarHiight"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tvSearchBtn"
+            android:layout_width="67dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/search_btn_bg"
+            android:text="搜索"
+            android:textColor="#CD3811"
+            android:textSize="@dimen/textSize"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/tvSearchBtn"
+            android:paddingLeft="20dp"
+            android:gravity="center_vertical"
+            android:textColor="#A8A8A7"
+            android:textSize="@dimen/textSize"
+            android:text="搜商品标题"/>
+    </RelativeLayout>
+</LinearLayout>

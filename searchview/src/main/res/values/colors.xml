@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 我们项目的颜色 -->
+    <!-- 主色 -->
+    <color name="main_color">#24cfa2</color>
+    <color name="defualt_text_color">#636363</color>
+
+    <color name="order_text_color_true">#FF9800</color>
+
+    <!-- 根布局的背景 -->
+    <color name="root_bg_color">#efeded</color>
+
+    <color name="white">#FFFFFF</color>
+
+    <!-- 线条的背景灰色 -->
+    <color name="gray">#F4F4F4</color>
+
+    <!-- 标题黑色 -->
+    <color name="title_black">#121212</color>
+
+    <!-- 头部颜色 -->
+    <color name="top_bg_color"> #323a45</color>
+
+    <!-- 深灰色 -->
+    <color name="main_digrey"> #999999</color>
+
+    <!-- 灰色 -->
+    <color name="main_gray"> #767676</color>
+
+    <!-- 无色 -->
+    <color name="no_color">#00000000</color>
+
+
+    <color name="red">#FF5252</color>
+
+    <color name="transparent_red">#88FF5252</color>
+    <color name="white_alpha_75">#BFFFFFFF</color>
+    <color name="white_alpha_45">#6FFFFFFF</color>
+
+    <color name="tab_normal_text">#000000</color>
+    <color name="tab_selected_text">#000000</color>
+    <color name="line_color">#DCDCDC</color>
+
+    <color name="red_checked_color">#FF4C39</color>
+    <color name="red_normal_color">#935656</color>
+    <color name="float_transparent">#00000000</color>
+    <color name="sweet_dialog_bg_color">#FFFFFF</color>
+    <color name="button_text_color">#FFFFFF</color>
+    <color name="gray_btn_bg_color">#D0D0D0</color>
+    <color name="gray_btn_bg_pressed_color">#B6B6B6</color>
+    <color name="blue_btn_bg_color">#AEDEF4</color>
+    <color name="blue_btn_bg_pressed_color">#96BFD2</color>
+    <color name="red_btn_bg_color">#DD6B55</color>
+    <color name="red_btn_bg_pressed_color">#CD5B55</color>
+    <color name="error_stroke_color">#F27474</color>
+    <color name="success_stroke_color">#A5DC86</color>
+    <color name="trans_success_stroke_color">#33A5DC86</color>
+    <color name="warning_stroke_color">#F8BB86</color>
+    <color name="text_color">#575757</color>
+    <color name="material_blue_grey_80">#ff37474f</color>
+    <color name="material_blue_grey_90">#ff263238</color>
+    <color name="material_blue_grey_95">#ff21272b</color>
+    <color name="material_deep_teal_20">#ff80cbc4</color>
+    <color name="material_deep_teal_50">#ff009688</color>
+    <color name="colorDefault">#ffffff</color>
+
+    <color name="colorBackground">#f1f0f6</color>
+
+    <color name="colorText">#9b9b9b</color>
+
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="search_history_selected_c_text">#FF5079F0</color>
+    <color name="search_history_selrct_c_text">#FF333333</color>
+    <color name="search_result_item_name_c_text">#59A3FF</color>
+    <color name="search_result_item_phone_c_text">#418CFE</color>
+</resources>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <!-- 我们项目的颜色 -->
+    <!-- 主色 -->
+    <color name="main_color">#24cfa2</color>
+    <color name="defualt_text_color">#636363</color>
+
+    <color name="order_text_color_true">#FF9800</color>
+
+    <!-- 根布局的背景 -->
+    <color name="root_bg_color">#efeded</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <!-- 线条的背景灰色 -->
+    <color name="gray">#F4F4F4</color>
+
+    <!-- 标题黑色 -->
+    <color name="title_black">#121212</color>
+
+    <!-- 头部颜色 -->
+    <color name="top_bg_color"> #323a45</color>
+
+    <!-- 深灰色 -->
+    <color name="main_digrey"> #999999</color>
+
+    <!-- 灰色 -->
+    <color name="main_gray"> #767676</color>
+
+    <!-- 无色 -->
+    <color name="no_color">#00000000</color>
+    <color name="color_fa">#FAFAFA</color>
+    <color name="red">#FF5252</color>
+    <color name="bar_grey_90">#dd393a3e</color>
+    <color name="app_color_grey">#393a3e</color>
+    <color name="app_color_black">#000000</color>
+    <color name="app_color_f6">#f6f6f6</color>
+    <color name="app_color_fa">#fafafa</color>
+    <color name="app_color_divider">#B6B6B6</color>
+    <color name="app_color_c51">#f94c51</color>
+    <color name="app_color_green">#43c117</color>
+    <color name="app_color_53575e">#53575e</color>
+    <color name="app_color_transparent">#00000000</color>
+    <color name="app_color_white">#FFFFFF</color>
+    <color name="app_color_white_transparent">#E0DBDBDB</color>
+    <color name="app_color_blue">#7D7DFF</color>
+    <color name="app_color_9b">#9b9b9b</color>
+    <color name="app_color_e0ff6100">#E0FF6100</color>
+    <color name="app_color_red">#FF0000</color>
+    <color name="transparent_red">#88FF5252</color>
+    <color name="white_alpha_75">#BFFFFFFF</color>
+    <color name="white_alpha_45">#6FFFFFFF</color>
+
+    <color name="tab_normal_text">#000000</color>
+    <color name="tab_selected_text">#000000</color>
+    <color name="line_color">#DCDCDC</color>
+
+    <color name="red_checked_color">#FF4C39</color>
+    <color name="red_normal_color">#935656</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="common_main_color">#ff3444</color>
+
+
+    <color name="pull_to_refresh_header_text">#999999</color>
+
+        <color name="text_main">#49496a</color>
+        <color name="text_main1">#838895</color>
+        <color name="text_black">#4E5157</color>
+        <color name="colo_money">#ff4757</color>
+        <color name="colo_blue">#2196F3</color>
+        <color name="color_link">#f0f0f0</color>
+        <color name="colo_white">#fff</color>
+        <color name="colo_bac">#f8f8f8</color>
+        <color name="colo_yellow">#FEC62E</color>
+        <color name="colo_red">#E53935</color>
+
+    <color name="goldenYellow">#B99041</color>
+    <!--字体颜色-->
+    <color name="textColor">#565656</color>
+    <color name="textColor1">#666666</color>
+    <color name="textColor2">#A5A3A5</color>
+
+
+    <!-- 下拉刷新时，颜色值 -->
+    <color name="swipeRefreshColor1">#ff00ddff</color>
+    <color name="swipeRefreshColor2">#ffffbb33</color>
+    <color name="swipeRefreshColor3">#ffff4444</color>
+    <color name="swipeRefreshColor4">#ffaa66cc</color>
+
+    <color name="click">#33ffffff</color>
+</resources>

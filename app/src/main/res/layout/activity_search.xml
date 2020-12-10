@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.SearchActivity">
+
+
+<!--    <scut.carson_ho.searchview.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:textSizeSearch="5dp"
+        app:textColorSearch="#3F51B5"
+        app:textHintSearch="输入查询关键字"
+        app:searchBlockHeight="200"
+        app:searchBlockColor="#ffffff"/>-->
+
+    <!--     <LinearLayout
+                android:id="@+id/search_header_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#f8f8f8"
+                android:gravity="center_vertical"
+                android:oriion="horizontal">
+
+           <ImageView
+                    android:layout_marginTop="12dp"
+                    android:id="@+id/header_back_image"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/fanhui"
+                    />
+
+            <FrameLayout
+                    android:id="@+id/search_header_fl"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical">
+
+
+
+                <EditText
+                        android:id="@+id/search_header_tv"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:inputType="text"
+                        android:background="@drawable/button_bg"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:imeOptions="actionSearch"
+                        android:singleLine="true"
+                        android:textSize="14sp"
+                        android:textColor="#FF999999"
+                        android:paddingLeft="50dp"
+                        android:layout_height="36dp"
+                        android:gravity="left|center_vertical"
+                        android:hint="请输入搜索内容" />
+                <ImageView
+                        android:id="@+id/search_header_image"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginLeft="17dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/soushuo"
+                        />
+
+
+
+
+            </FrameLayout>-->
+
+
+     <!--   <ImageView
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/fanhui"
+                android:id="@+id/header_back_image"
+                >
+        </ImageView>
+
+        <FrameLayout
+                android:id="@+id/search_header_fl"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_weight="1"
+                >
+            <EditText
+                    android:id="@+id/search_header_tv"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="36dp"
+                    android:gravity="left|center_vertical"
+                    android:layout_margin="10dp"
+                    android:paddingLeft="50dp"
+                    android:background="@drawable/button_bg"
+                    android:drawablePadding="1dp"
+                    android:hint="请输入关键字"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
+                    android:inputType="text"
+                    android:textSize="13dp" >
+            </EditText>
+
+            <ImageView
+                    android:id="@+id/search_header_image"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginLeft="17dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/soushuo"
+                    >
+            </ImageView>
+        </FrameLayout>
+
+        <Button
+                android:id="@+id/search_btn_search"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/blue_button_background"
+                android:text="搜索"
+                android:textColor="#333333" />
+        &lt;!&ndash;<scut.carson_ho.searchview.widget.FakeBoldTextView
+                android:id="@+id/header_cancel_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:background="@null"
+                android:clickable="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:textSize="18sp"
+                android:textColor="#FFA5A5A5"
+                android:text="@string/app_delete_cancel"
+                app:boldStyle="medium" />&ndash;&gt;
+
+    </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/fanhui"
+                android:id="@+id/header_back_image"
+                >
+            </ImageView>
+            <RelativeLayout
+                android:clickable="true"
+                android:background="@drawable/search_bar_bg"
+                android:id="@+id/search_header"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/searchBarHiight"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_alignParentBottom="true">
+
+                <Button
+                    android:id="@+id/search_btn_search"
+                    android:layout_width="67dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/search_btn_bg"
+                    android:text="搜索"
+                    android:textColor="#CD3811"
+                    android:textSize="@dimen/textSize"
+                    android:gravity="center"/>
+                <EditText
+                    android:id="@+id/search_header_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="#A8A8A7"
+                    android:inputType="text"
+                    android:textSize="@dimen/textSize"
+                    android:gravity="start|center_vertical"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
+                    android:hint="搜商品标题"/>
+            </RelativeLayout>
+        </LinearLayout>
+    <!--分界线-->
+    <View
+            android:id="@+id/search_divider_view_below"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="#CDCDCD" />
+
+    <!--若有历史搜索则展示历史搜索-->
+    <include
+            android:id="@+id/search_history_layout"
+            layout="@layout/search_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="gone" />
+
+
+
+</LinearLayout>

@@ -1,0 +1,5 @@
+include ':AnnotationPermission'
+include ':flowlayout-lib'
+include ':searchview'
+include ':app', ':base', ':library', ':sweet'
+rootProject.name='AiXiaoYuan'

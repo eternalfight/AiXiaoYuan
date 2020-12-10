@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.MainActivity">
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+
+        <!-- 下部的图标点击会需要两张图片切换，字体的颜色也会切换 -->
+        <RadioButton
+            android:id="@+id/home_rb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/rb_home"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="首页"
+            android:textColor="@color/bottom_rb_text_color" />
+
+
+        <RadioButton
+            android:id="@+id/contents_rb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/rb_shoppingcart_normal"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="购物车"
+            android:textColor="@color/bottom_rb_text_color" />
+
+        <!-- 中间的，不参与 切换工作 -->
+        <LinearLayout
+            android:id="@+id/sale_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home_publish" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="卖闲置"
+                android:textColor="@color/defualt_text_color" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+            <RadioButton
+                    android:id="@+id/message_rb"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:paddingTop="4dp"
+                    android:checked="false"
+                    android:drawableTop="@drawable/rb_message"
+                    android:drawablePadding="3dp"
+                    android:gravity="center"
+                    android:text="聊天"
+                    android:textColor="@color/bottom_rb_text_color"/>
+
+        <ImageView
+                android:id="@+id/iv_conversation_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="20dp"
+                android:background="@mipmap/msg_tips"
+                android:contentDescription="@string/action_settings"
+                android:gravity="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="12sp"
+                android:visibility="visible"/>
+        </RelativeLayout>
+        <RadioButton
+            android:id="@+id/center_rb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/rb_center"
+            android:drawablePadding="3dp"
+            android:gravity="center"
+            android:text="个人中心"
+            android:textColor="@color/bottom_rb_text_color" />
+    </LinearLayout>
+    </RadioGroup>
+</LinearLayout>
