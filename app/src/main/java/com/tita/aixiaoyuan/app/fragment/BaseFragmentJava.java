@@ -15,6 +15,7 @@ public abstract class BaseFragmentJava extends Fragment {
     private View mContentView;
     private Context mContext;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

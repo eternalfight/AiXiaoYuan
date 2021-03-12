@@ -6,8 +6,19 @@ import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.jude.utils.JUtils;
+import com.tita.aixiaoyuan.Chat.model.UserModel;
+import com.tita.aixiaoyuan.R;
+import com.tita.aixiaoyuan.utils.CommUtil;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -15,10 +26,6 @@ import cn.bmob.v3.Bmob;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import com.jude.utils.JUtils;
-import com.tita.aixiaoyuan.Chat.model.UserModel;
-import com.tita.aixiaoyuan.R;
-import com.tita.aixiaoyuan.utils.CommUtil;
 
 public class LoginActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -89,9 +96,11 @@ public class LoginActivity extends AppCompatActivity implements CompoundButton.O
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     JUtils.Toast("登录成功");
+                    pDialog.dismiss();
                     finish();
                 } else {
                     JUtils.Toast("登录失败：" + e.getMessage() + ",错误代码：" + e.getErrorCode());
+                    pDialog.dismiss();
                 }
             }
         });

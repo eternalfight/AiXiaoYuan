@@ -7,14 +7,13 @@
     android:layout_width="match_parent"
     android:background="@color/root_bg_color"
     android:layout_height="match_parent">
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
 
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true">
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
@@ -22,7 +21,7 @@
             android:fitsSystemWindows="true">
 
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,10 +33,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <!--<com.scwang.smart.refresh.header.ClassicsHeader
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>-->
 
                     <include layout="@layout/search_header" />
 
@@ -54,18 +49,9 @@
                 </LinearLayout>
 
 
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-
-
-        <LinearLayout
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
             <com.google.android.material.tabs.TabLayout
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 android:id="@+id/tablayout1"
                 android:layout_gravity="top"
                 app:tabIndicatorGravity="bottom"
@@ -76,168 +62,46 @@
                 android:background="@color/white"
                 android:layout_height="wrap_content" >
             </com.google.android.material.tabs.TabLayout>
-            <androidx.viewpager.widget.ViewPager
-                app:layout_constraintTop_toBottomOf="@+id/AppBarLayout"
-                android:id="@+id/viewpager_view1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <!--<com.scwang.smart.refresh.footer.ClassicsFooter
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>-->
-        </LinearLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
 
 
-
-
-
-
-
-
-<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
-    <com.andview.refreshview.XRefreshView
-        android:id="@+id/refreshview"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.tita.aixiaoyuan.app.widget.MyCoordinatorLayout
-            android:id="@+id/coordinatorLayout"
+        <LinearLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appbarlayout"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <com.google.android.material.appbar.CollapsingToolbarLayout
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                    android:id="@+id/collapsingToolbar"
+                android:layout_height="match_parent">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewpager_view1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    >
-                    <include layout="@layout/search_header"/>
-
-                    <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/minHeadTopHeight"
-                        app:layout_collapseMode="pin">
-                    </androidx.appcompat.widget.Toolbar>
-                </com.google.android.material.appbar.CollapsingToolbarLayout>
-            </com.google.android.material.appbar.AppBarLayout>
-
-
-            <androidx.core.widget.NestedScrollView
-                android:id="@+id/nestedScrollView"
-                app:layout_scrollFlags="scroll"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/mybehavior"
-                android:fillViewport="true">
-                <com.tita.aixiaoyuan.app.widget.VerticalLinearLayout
-                    android:id="@+id/NestedVerLinearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:descendantFocusability="blocksDescendants">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <com.zhpan.bannerview.BannerViewPager
-                            app:layout_scrollFlags="scroll"
-                            app:layout_constraintTop_toBottomOf="@id/AppBarLayout"
-                            android:id="@+id/banner_view"
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="@dimen/dp_5"
-                            android:layout_height="@dimen/dp_150"
-                            app:bvp_indicator_slide_mode="worm"
-                            app:bvp_page_style="multi_page" />
-
-                        <com.tita.aixiaoyuan.app.widget.FixedDataScrollDisabledRecyclerView
-                            app:layout_scrollFlags="scroll"
-                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                            app:layout_constraintTop_toBottomOf="@id/banner_view"
-                            android:id="@+id/combo_top_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            />
-                    </LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/AppBarLayout" />
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/avi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/AVLoadingIndicatorView"
+                    android:visibility="visible"
+                    app:indicatorName="BallPulseIndicator"
+                    app:indicatorColor="#FF9800"
+                    />
+            </FrameLayout>
 
 
 
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/tablayout1"
-                        android:overScrollMode="never"
-                        android:layout_gravity="top"
-                        app:tabIndicatorGravity="bottom"
-                        app:tabSelectedTextColor="#FF9800"
-                        app:tabIndicatorFullWidth="false"
-                        app:tabIndicatorColor="#FF9800"
-                        app:tabMode="fixed"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
-                    </com.google.android.material.tabs.TabLayout>
-                    <androidx.viewpager.widget.ViewPager
-                        app:layout_scrollFlags="scroll"
-                        app:layout_constraintTop_toBottomOf="@+id/AppBarLayout"
-                        android:id="@+id/viewpager_view1"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </com.tita.aixiaoyuan.app.widget.VerticalLinearLayout>
-
-            </androidx.core.widget.NestedScrollView>
-
-        </com.tita.aixiaoyuan.app.widget.MyCoordinatorLayout>
-    </com.andview.refreshview.XRefreshView>
 
 
-    <RelativeLayout
-        android:id="@+id/rlSearchBarCoverLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/maxHeadTopHeight"
-        android:visibility="gone">
-        <RelativeLayout
-            android:id="@+id/rlSearchBarCover"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/searchBarHiight"
-            android:layout_marginLeft="@dimen/marginLeft"
-            android:layout_marginRight="@dimen/marginLeft"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/maxMarginBottom"
-            android:background="@drawable/search_bar_bg">
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-            <TextView
-                android:id="@+id/tvSearchBtnCover"
-                android:layout_width="67dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/search_btn_bg"
-                android:gravity="center"
-                android:text="搜索"
-                android:textColor="#CD3811"
-                android:textSize="@dimen/textSize" />
 
-            <TextView
-                android:id="@+id/tvSearchContentCover"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/tvSearchBtnCover"
-                android:gravity="center_vertical"
-                android:paddingLeft="20dp"
-                android:text="搜淘宝商品标题，领券/拿返还"
-                android:textColor="#A8A8A7"
-                android:textSize="@dimen/textSize" />
-        </RelativeLayout>
-    </RelativeLayout>
-</RelativeLayout>-->
+
+
+
+

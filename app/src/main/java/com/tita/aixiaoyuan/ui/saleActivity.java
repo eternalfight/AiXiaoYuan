@@ -8,10 +8,12 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bumptech.glide.Glide;
+import com.hjq.toast.ToastUtils;
+import com.jude.utils.JUtils;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.animators.AnimationType;
 import com.luck.picture.lib.broadcast.BroadcastAction;
@@ -40,18 +49,37 @@ import com.luck.picture.lib.style.PictureWindowAnimationStyle;
 import com.luck.picture.lib.tools.PictureFileUtils;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.luck.picture.lib.tools.SdkVersionUtils;
-import com.luck.picture.lib.tools.ToastUtils;
 import com.tita.aixiaoyuan.Adapter.FullyGridLayoutManager;
 import com.tita.aixiaoyuan.Adapter.GridImageAdapter;
 import com.tita.aixiaoyuan.R;
+import com.tita.aixiaoyuan.model.User;
+import com.tita.aixiaoyuan.model.productInfoBean;
 import com.tita.aixiaoyuan.utils.GlideEngine;
+import com.tita.aixiaoyuan.utils.Utils;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
+import cn.bmob.v3.listener.UploadBatchListener;
+import cn.bmob.v3.listener.UploadFileListener;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class saleActivity extends AppCompatActivity {
     private static final String TAG = "saleActivity";
@@ -67,15 +95,34 @@ public class saleActivity extends AppCompatActivity {
     EditText good_info;
     @BindView(R.id.photo_recycler)
     RecyclerView mRecyclerView;
-
+    @BindView(R.id.type_tv)
+    TextView type_tv;
+    @BindView(R.id.produCut_et)
+    EditText produCut_et;
+    @BindView(R.id.productDetial_pic)
+    ImageView productDetial_pic;
 
     private GridImageAdapter mAdapter;
-    private int maxSelectNum = 9;
+    private int maxSelectNum = 6;
     private int themeId;
     private PictureParameterStyle mPictureParameterStyle;
     private PictureSelectorUIStyle mSelectorUIStyle;
     private PictureCropParameterStyle mCropParameterStyle;
-    @Override
+    private List<String> tyepOptionsItems;
+    OptionsPickerView pvTypeOptions;
+    private String mediadata;
+
+    private int product_type_int = 0;
+    private String product_title;
+    private String product_info;
+    private int product_cunt;
+    private double product_prise;
+    private List<String> PicMap;  //商品图路径集合
+    SweetAlertDialog pDialog;
+    private int upLoadState = 0;//上传状态 0：
+    private int upLoadMission = 0; //总上传任务数量;
+    public static saleActivity instance = null;
+
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
@@ -85,10 +132,11 @@ public class saleActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_sale);
         ButterKnife.bind(this);
+        instance = this;
 
 
 
-
+        initpickType();
         themeId = R.style.picture_WeChat_style;
         mPictureParameterStyle = getWeChatStyle();
         //mSelectorUIStyle = PictureSelectorUIStyle.ofNewStyle();
@@ -145,7 +193,443 @@ public class saleActivity extends AppCompatActivity {
         });
 
     }
+    static Handler handler;
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+
+    }
+
+
+    private void getSelectPecture(int width) {
+        Utils.autoSizeImageViewHeight(this,productDetial_pic,width);
+        File file = new File(mediadata);
+        Glide.with(this).load(file).into(productDetial_pic);
+    }
+
+    private productInfoBean productInfoBean;
+    private String mObjectId;
+    private void uploadData(){
+
+        product_title = goods_titel.getText().toString().trim();
+        product_info = good_info.getText().toString().trim();
+        product_cunt = Integer.parseInt(produCut_et.getText().toString().trim());
+        product_prise = Double.parseDouble(price_et.getText().toString().trim());
+
+        if (product_title.isEmpty()||product_info.isEmpty()||price_et.getText().toString().isEmpty()){
+            Toast.makeText(this,"请完善相关信息！",Toast.LENGTH_SHORT).show();
+        }else {
+            String id = Utils.genUniqueKeyProduct();
+            productInfoBean = new productInfoBean();
+            User user = BmobUser.getCurrentUser(User.class);
+            productInfoBean.setUsername(user.getUsername());
+            productInfoBean.setProduct_id(id);
+            productInfoBean.setOne_category_id(product_type_int);
+            productInfoBean.setCurrent_cnt(product_cunt);
+            productInfoBean.setPrice(product_prise);
+            productInfoBean.setProduct_name(product_title);
+            productInfoBean.setPublish_status(0);
+            productInfoBean.setProduct_info(product_info);
+
+            String uri;
+            switch (product_type_int) {
+                case 0:
+                    uri = "http://files.lunyong.top/2021/03/02/777eba36401691a980b69a61a0357464.png";
+                    break;
+                case 1:
+                    uri = "http://files.lunyong.top/2021/03/02/74f6a62140c704e780c77c98eadec851.png";
+                    break;
+                case 2:
+                    uri = "http://files.lunyong.top/2021/03/02/47f8298b40d2dcc780ac8870efa5cd48.png";
+                    break;
+                case 3:
+                    uri = "http://files.lunyong.top/2021/03/02/23994e7340c664c280610332ed8aa683.png";
+                    break;
+                default:
+                    uri = "http://files.lunyong.top/2021/03/02/777eba36401691a980b69a61a0357464.png";
+                    break;
+            }
+            List<String> u = new ArrayList<>();
+            u.add(uri);
+            if (PicMap == null) productInfoBean.setPicUrl(u);
+            upLoadMission++;
+
+            productInfoBean.save(new SaveListener<String>() {
+                @Override
+                public void done(String objectId, BmobException e) {
+                    if (e == null) {
+                        //JUtils.Toast("上传成功");
+                        mObjectId = objectId;
+                        Log.i(TAG, "done: 表创建成功");
+                        upLoadState++;
+                    } else {
+                        Log.e("BMOB", e.toString());
+                        JUtils.Toast("失败："+e.getMessage());
+                        upLoadState++;
+                    }
+                }
+            });
+
+            if (mediadata != null){
+                upLoadMission ++;
+                final BmobFile bmobFile = new BmobFile(new File(mediadata));
+                bmobFile.uploadblock(new UploadFileListener() {
+                    @Override
+                    public void done(BmobException e) {
+                        if (e == null){
+                            productInfoBean.setProduct_detial_pic(bmobFile);
+                            updateData();
+                            upLoadState++;
+                        }else{
+                            com.hjq.toast.ToastUtils.show("上传文件失败:" + e.getMessage());
+                            Log.e("upload", "上传文件失败: " + e.getMessage() + ":" + e.getErrorCode());
+                            upLoadState++;
+                        }
+                    }
+                });
+            }
+
+        }
+        //显示进度条
+        pDialog = new SweetAlertDialog(saleActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("正在上传数据");
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        List<String> PictureUrls;
+        PictureUrls = new ArrayList<>();
+
+
+        if (PicMap != null ){
+
+            upLoadMission ++;
+            //就路径存入数组
+            final String[] filePaths = new String[PicMap.size()];
+            int j = 0;
+            for (String i : PicMap) {
+                filePaths[j] = i;
+                j++;
+                //Log.i(TAG, "onActivityResult: "+i);
+            }
+
+            //批量上传图片
+            BmobFile.uploadBatch(filePaths, new UploadBatchListener() {
+
+                @Override
+                public void onSuccess(List<BmobFile> files,List<String> urls) {
+                    //1、files-上传完成后的BmobFile集合，是为了方便大家对其上传后的数据进行操作，例如你可以将该文件保存到表中
+                    //2、urls-上传文件的完整url地址
+                    if(urls.size() == filePaths.length){//如果数量相等，则代表文件全部上传完成
+                        productInfoBean.setPicUrl(urls);
+
+                        //do something
+                        // pDialog.dismiss();
+                        for (String url: urls){
+                            Log.i(TAG, "onSuccess: " + url);
+                            PictureUrls.add(url);
+                        }
+                        switch (files.size()){
+
+                            case 0:
+                                break;
+                            case 1:
+                                productInfoBean.setPicOne(files.get(0));
+                                break;
+                            case 2:
+                                productInfoBean.setPicOne(files.get(0));
+                                productInfoBean.setPicTwo(files.get(1));
+                                break;
+                            case 3:
+                                productInfoBean.setPicOne(files.get(0));
+                                productInfoBean.setPicTwo(files.get(1));
+                                productInfoBean.setPicThr(files.get(2));
+                                break;
+                            case 4:
+                                productInfoBean.setPicOne(files.get(0));
+                                productInfoBean.setPicTwo(files.get(1));
+                                productInfoBean.setPicThr(files.get(2));
+                                productInfoBean.setPicFor(files.get(3));
+                                break;
+                            case 5:
+                                productInfoBean.setPicOne(files.get(0));
+                                productInfoBean.setPicTwo(files.get(1));
+                                productInfoBean.setPicThr(files.get(2));
+                                productInfoBean.setPicFor(files.get(3));
+                                productInfoBean.setPicFiv(files.get(4));
+                                break;
+                            case 6:
+                                productInfoBean.setPicOne(files.get(0));
+                                productInfoBean.setPicTwo(files.get(1));
+                                productInfoBean.setPicThr(files.get(2));
+                                productInfoBean.setPicFor(files.get(3));
+                                productInfoBean.setPicFiv(files.get(4));
+                                productInfoBean.setPicSix(files.get(5));
+                                break;
+                        }
+                        updateData();
+                        // pDialog.dismiss();
+                        upLoadState++;
+                    }
+                }
+
+                @Override
+                public void onError(int statuscode, String errormsg) {
+                    ToastUtils.show("错误码"+statuscode +",错误描述："+errormsg);
+                    // pDialog.dismiss();
+                    Log.i(TAG, "onError: "+errormsg);
+                    upLoadState++;
+                }
+
+                @Override
+                public void onProgress(int curIndex, int curPercent, int total,int totalPercent) {
+                    //1、curIndex--表示当前第几个文件正在上传
+                    //2、curPercent--表示当前上传文件的进度值（百分比）
+                    //3、total--表示总的上传文件数
+                    //4、totalPercent--表示总的上传进度（百分比）
+                    pDialog.getProgressHelper().setProgress(totalPercent);
+                }
+            });
+
+        }
+    }
+
+    int mission = 0;
+    private void upLoadDataRxJava(){
+
+        // TODO: 2021/3/2 RxJava 批量删除数据
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+            @Override
+            public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
+                product_title = goods_titel.getText().toString().trim();
+                product_info = good_info.getText().toString().trim();
+                product_cunt = Integer.parseInt(produCut_et.getText().toString().trim());
+                product_prise = Double.parseDouble(price_et.getText().toString().trim());
+
+                if (product_title.isEmpty()||product_info.isEmpty()||price_et.getText().toString().isEmpty()){
+                    ToastUtils.show("请完善相关信息！");
+                    emitter.onComplete();
+                }else {
+                    String id = Utils.genUniqueKeyProduct();
+                    productInfoBean = new productInfoBean();
+                    User user = BmobUser.getCurrentUser(User.class);
+                    productInfoBean.setUsername(user.getUsername());
+                    productInfoBean.setProduct_id(id);
+                    productInfoBean.setOne_category_id(product_type_int);
+                    productInfoBean.setCurrent_cnt(product_cunt);
+                    productInfoBean.setPrice(product_prise);
+                    productInfoBean.setProduct_name(product_title);
+                    productInfoBean.setPublish_status(0);
+                    productInfoBean.setProduct_info(product_info);
+                    Log.i(TAG, "uploadData: product_type_int"+ product_type_int );
+                    String uri;
+                    switch (product_type_int) {
+                        case 0:
+                            uri = "http://files.lunyong.top/2021/03/02/777eba36401691a980b69a61a0357464.png";
+                            break;
+                        case 1:
+                            uri = "http://files.lunyong.top/2021/03/02/74f6a62140c704e780c77c98eadec851.png";
+                            break;
+                        case 2:
+                            uri = "http://files.lunyong.top/2021/03/02/47f8298b40d2dcc780ac8870efa5cd48.png";
+                            break;
+                        case 3:
+                            uri = "http://files.lunyong.top/2021/03/02/23994e7340c664c280610332ed8aa683.png";
+                            break;
+                        default:
+                            uri = "http://files.lunyong.top/2021/03/02/47f8298b40d2dcc780ac8870efa5cd48.png";
+                            break;
+                    }
+                    List<String> u = new ArrayList<>();
+                    u.add(uri);
+                    if (PicMap == null) productInfoBean.setPicUrl(u);
+                    mission++;
+                    productInfoBean.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String objectId, BmobException e) {
+                            emitter.onNext(1);
+                            if (e == null) {
+                                mObjectId = objectId;
+                                Log.i(TAG, "done: 表创建成功");
+                            } else {
+                                Log.e("BMOB", e.toString());
+                                JUtils.Toast("失败："+e.getMessage());
+                                emitter.onError(new Throwable(e.getMessage()));
+                            }
+                        }
+                    });
+
+                    if (mediadata != null){
+                        mission++;
+                        final BmobFile bmobFile = new BmobFile(new File(mediadata));
+                        bmobFile.uploadblock(new UploadFileListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                emitter.onNext(2);
+                                if (e == null){
+                                    productInfoBean.setProduct_detial_pic(bmobFile);
+                                }else{
+                                    com.hjq.toast.ToastUtils.show("上传文件失败:" + e.getMessage());
+                                    Log.e("upload", "上传文件失败: " + e.getMessage() + ":" + e.getErrorCode());
+                                    emitter.onError(new Throwable(e.getMessage()));
+                                }
+                            }
+                        });
+                    }
+                    List<String> PictureUrls = new ArrayList<>();
+                    if (PicMap != null ){
+                        //就路径存入数组
+                        final String[] filePaths = new String[PicMap.size()];
+                        int j = 0;
+                        for (String i : PicMap) {
+                            filePaths[j] = i;
+                            j++;
+                        }
+                        //批量上传图片
+                        mission++;
+                        BmobFile.uploadBatch(filePaths, new UploadBatchListener() {
+                            @Override
+                            public void onSuccess(List<BmobFile> files,List<String> urls) {
+                                if(urls.size() == filePaths.length){
+                                    emitter.onNext(3);
+                                    productInfoBean.setPicUrl(urls);
+                                    for (String url: urls){
+                                        Log.i(TAG, "onSuccess: " + url);
+                                        PictureUrls.add(url);
+                                    }
+                                    switch (files.size()){
+                                        case 0:
+                                            break;
+                                        case 1:
+                                            productInfoBean.setPicOne(files.get(0));
+                                            break;
+                                        case 2:
+                                            productInfoBean.setPicOne(files.get(0));
+                                            productInfoBean.setPicTwo(files.get(1));
+                                            break;
+                                        case 3:
+                                            productInfoBean.setPicOne(files.get(0));
+                                            productInfoBean.setPicTwo(files.get(1));
+                                            productInfoBean.setPicThr(files.get(2));
+                                            break;
+                                        case 4:
+                                            productInfoBean.setPicOne(files.get(0));
+                                            productInfoBean.setPicTwo(files.get(1));
+                                            productInfoBean.setPicThr(files.get(2));
+                                            productInfoBean.setPicFor(files.get(3));
+                                            break;
+                                        case 5:
+                                            productInfoBean.setPicOne(files.get(0));
+                                            productInfoBean.setPicTwo(files.get(1));
+                                            productInfoBean.setPicThr(files.get(2));
+                                            productInfoBean.setPicFor(files.get(3));
+                                            productInfoBean.setPicFiv(files.get(4));
+                                            break;
+                                        case 6:
+                                            productInfoBean.setPicOne(files.get(0));
+                                            productInfoBean.setPicTwo(files.get(1));
+                                            productInfoBean.setPicThr(files.get(2));
+                                            productInfoBean.setPicFor(files.get(3));
+                                            productInfoBean.setPicFiv(files.get(4));
+                                            productInfoBean.setPicSix(files.get(5));
+                                            break;
+                                    }
+
+                                }
+                            }
+                            @Override
+                            public void onError(int statuscode, String errormsg) {
+                                ToastUtils.show("错误码"+statuscode +",错误描述："+errormsg);
+                                Log.i(TAG, "onError: "+errormsg);
+                                emitter.onError(new Throwable(errormsg));
+                            }
+                            @Override
+                            public void onProgress(int curIndex, int curPercent, int total,int totalPercent) {
+                                pDialog.getProgressHelper().setProgress(totalPercent);
+                            }
+                        });
+
+                    }
+
+
+
+                }
+
+            }
+
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        //显示进度条
+                        pDialog = new SweetAlertDialog(saleActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+                        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                        pDialog.setTitleText("正在上传数据");
+                        pDialog.setCancelable(false);
+                        pDialog.show();
+                    }
+
+                    @Override
+                    public void onNext(Integer s) {
+                        Log.i("Observable", "onNext: "+ s );
+                        count++;
+                        if (count == mission){
+                            updateData();
+                            pDialog.dismiss();
+                            do_preView();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        pDialog.dismiss();
+                        productInfoBean.delete(mObjectId, new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                if (e == null) {
+                                    ToastUtils.show("删除成功");
+                                } else {
+                                    Log.e("BMOB", e.toString());
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i("TAG", "onComplete: ");
+                    }
+                });
+    }
+    int count = 0;
+
+    //预览
+    private void do_preView() {
+        Intent intent = new Intent(this,ShopDetialActivity.class);
+        intent.putExtra("GoodsObjectId",mObjectId);
+        intent.putExtra("isPreView",1);
+        startActivityForResult(intent,0);
+    }
+
+    private void updateData(){
+        upLoadMission ++;
+        productInfoBean.setOne_category_id(product_type_int);
+        productInfoBean.update(mObjectId, new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e == null) {
+                    //ToastUtils.show("update：" + e.getMessage());
+                    upLoadState++;
+                } else {
+                    //ToastUtils.show("update：" + e.getMessage());
+                    Log.i(TAG, "update false: " + e.getMessage());
+                    upLoadState++;
+                }
+            }
+        });
+    }
 
     private PictureParameterStyle getWeChatStyle() {
         // 相册主题
@@ -220,32 +704,6 @@ public class saleActivity extends AppCompatActivity {
         mPictureParameterStyle.pictureTitleBarHeight = ScreenUtils.dip2px(getContext(), 48);
         // 标题栏右侧按钮方向箭头left Padding
         mPictureParameterStyle.pictureTitleRightArrowLeftPadding = ScreenUtils.dip2px(getContext(), 3);
-
-        // 完成文案是否采用(%1$d/%2$d)的字符串，只允许两个占位符哟
-//        mPictureParameterStyle.isCompleteReplaceNum = true;
-        // 自定义相册右侧文本内容设置
-//        mPictureParameterStyle.pictureUnCompleteText = getString(R.string.app_wechat_send);
-        //自定义相册右侧已选中时文案 支持占位符String 但只支持两个 必须isCompleteReplaceNum为true
-//        mPictureParameterStyle.pictureCompleteText = getString(R.string.app_wechat_send_num);
-//        // 自定义相册列表不可预览文字
-//        mPictureParameterStyle.pictureUnPreviewText = "";
-//        // 自定义相册列表预览文字
-//        mPictureParameterStyle.picturePreviewText = "";
-//        // 自定义预览页右下角选择文字文案
-//        mPictureParameterStyle.pictureWeChatPreviewSelectedText = "";
-
-//        // 自定义相册标题文字大小
-//        mPictureParameterStyle.pictureTitleTextSize = 9;
-//        // 自定义相册右侧文字大小
-//        mPictureParameterStyle.pictureRightTextSize = 9;
-//        // 自定义相册预览文字大小
-//        mPictureParameterStyle.picturePreviewTextSize = 9;
-//        // 自定义相册完成文字大小
-//        mPictureParameterStyle.pictureCompleteTextSize = 9;
-//        // 自定义原图文字大小
-//        mPictureParameterStyle.pictureOriginalTextSize = 9;
-//        // 自定义预览页右下角选择文字大小
-//        mPictureParameterStyle.pictureWeChatPreviewSelectedTextSize = 9;
 
         // 裁剪主题
         mCropParameterStyle = new PictureCropParameterStyle(
@@ -371,8 +829,9 @@ public class saleActivity extends AppCompatActivity {
     /**
      * 返回结果回调
      */
-    private static class MyResultCallback implements OnResultCallbackListener<LocalMedia> {
+    private class MyResultCallback implements OnResultCallbackListener<LocalMedia> {
         private WeakReference<GridImageAdapter> mAdapterWeakReference;
+
 
         public MyResultCallback(GridImageAdapter adapter) {
             super();
@@ -381,8 +840,9 @@ public class saleActivity extends AppCompatActivity {
 
         @Override
         public void onResult(List<LocalMedia> result) {
+            PicMap = new ArrayList<>();
             for (LocalMedia media : result) {
-                Log.i(TAG, "是否压缩:" + media.isCompressed());
+          /*      Log.i(TAG, "是否压缩:" + media.isCompressed());
                 Log.i(TAG, "压缩:" + media.getCompressPath());
                 Log.i(TAG, "原图:" + media.getPath());
                 Log.i(TAG, "绝对路径:" + media.getRealPath());
@@ -392,9 +852,15 @@ public class saleActivity extends AppCompatActivity {
                 Log.i(TAG, "原图路径:" + media.getOriginalPath());
                 Log.i(TAG, "Android Q 特有Path:" + media.getAndroidQToPath());
                 Log.i(TAG, "宽高: " + media.getWidth() + "x" + media.getHeight());
-                Log.i(TAG, "Size: " + media.getSize());
+                Log.i(TAG, "Size: " + media.getSize());*/
                 // TODO 可以通过PictureSelectorExternalUtils.getExifInterface();方法获取一些额外的资源信息，如旋转角度、经纬度等信息
+                if (media.isOriginal()){
+                    PicMap.add(media.getRealPath());
+                }else {
+                    PicMap.add(media.getCutPath());
+                }
             }
+
             if (mAdapterWeakReference.get() != null) {
                 mAdapterWeakReference.get().setList(result);
                 mAdapterWeakReference.get().notifyDataSetChanged();
@@ -406,7 +872,7 @@ public class saleActivity extends AppCompatActivity {
             Log.i(TAG, "PictureSelector Cancel");
         }
     }
-    @OnClick({R.id.sale_cancle_btn,R.id.sale_publish})
+    @OnClick({R.id.sale_cancle_btn,R.id.sale_publish,R.id.type_lv,R.id.productDetial_pic})
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.sale_cancle_btn:
@@ -414,14 +880,68 @@ public class saleActivity extends AppCompatActivity {
                 break;
             case R.id.sale_publish:
                 do_publish();
+
+                break;
+            case R.id.type_lv:
+                pvTypeOptions.show();
+                break;
+            case R.id.productDetial_pic:
+                selectproductDetial_pic();
                 break;
         }
     }
+
+    private void selectproductDetial_pic() {
+        Intent intent = new Intent(this, selectproductDetialPicActivity.class);
+        startActivityForResult(intent,1);
+    }
+
+    private void initpickType() {
+        getData();
+        pvTypeOptions = new OptionsPickerBuilder(saleActivity.this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
+                //返回的分别是三个级别的选中位置
+                String tx = tyepOptionsItems.get(options1);
+                type_tv.setText(tx);
+            }
+        }) .setOptionsSelectChangeListener(new OnOptionsSelectChangeListener() {
+            @Override
+            public void onOptionsSelectChanged(int options1, int options2, int options3) {
+                //String str = "options1: " + options1 + "\noptions2: " + options2 + "\noptions3: " + options3;
+                //JUtils.Toast(str);
+                product_type_int = options1;
+            }
+        })
+                .setSubmitText("确定")//确定按钮文字
+                .setCancelText("取消")//取消按钮文字
+                .setTitleText("选择商品类型")//标题
+                .setSubCalSize(18)//确定和取消文字大小
+                .setTitleSize(20)//标题文字大小
+                .setContentTextSize(18)//滚轮文字大小
+                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                .setCyclic(false, false, false)//循环与否
+                .setSelectOptions(1, 1, 1)  //设置默认选中项
+                .setOutSideCancelable(false)//点击外部dismiss default true
+                .isDialog(false)//是否显示为对话框样式
+                .isRestoreItem(true)//切换时是否还原，设置默认选中第一项。
+                .build();
+        pvTypeOptions.setPicker(tyepOptionsItems);//添加数据源
+    }
+    private void getData(){
+        tyepOptionsItems = new ArrayList<>();
+        tyepOptionsItems.add("购物");
+        tyepOptionsItems.add("外卖");
+        tyepOptionsItems.add("跑腿");
+        tyepOptionsItems.add("闲置");
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == PictureConfig.CHOOSE_REQUEST) {// 图片选择结果回调
+
                 List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
                 // 例如 LocalMedia 里面返回五种path
                 // 1.media.getPath(); 原图path
@@ -444,23 +964,41 @@ public class saleActivity extends AppCompatActivity {
                     Log.i(TAG, "Size: " + media.getSize());
 
                     // TODO 可以通过PictureSelectorExternalUtils.getExifInterface();方法获取一些额外的资源信息，如旋转角度、经纬度等信息
+
+
                 }
+
                 mAdapter.setList(selectList);
                 mAdapter.notifyDataSetChanged();
             }
         }
+        if(resultCode==1){
+            mediadata = data.getStringExtra("mediadata");
+            int width = data.getIntExtra("width",0);
+            getSelectPecture(width);
+        }
     }
 
     public void do_publish(){
-        String title = goods_titel.getText().toString();
-        String info = good_info.getText().toString();
-        String price = price_et.getText().toString();
-        if (title.isEmpty()||info.isEmpty()||price.isEmpty() ){
-            Toast.makeText(this,"请完善相关信息！",Toast.LENGTH_SHORT).show();
-        }else {
-            Intent intent = new Intent(this,PublishSuccessActivity.class);
-            startActivityForResult(intent,0);
-        }
+        //uploadData();
+        upLoadDataRxJava();
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Looper.prepare();
+                while (upLoadMission != upLoadState){
+                    continue;
+                }
+*//*                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }*//*
+                pDialog.dismiss();
+                do_preView();
+            }
+        }).start();*/
+
     }
 
     @Override
@@ -489,7 +1027,7 @@ public class saleActivity extends AppCompatActivity {
                 Bundle extras = intent.getExtras();
                 if (extras != null) {
                     int position = extras.getInt(PictureConfig.EXTRA_PREVIEW_DELETE_POSITION);
-                    ToastUtils.s(getContext(), "delete image index:" + position);
+                    ToastUtils.show( "delete image index:" + position);
                     mAdapter.remove(position);
                     mAdapter.notifyItemRemoved(position);
                 }

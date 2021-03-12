@@ -1,13 +1,14 @@
 package com.tita.aixiaoyuan.Chat.emoji;
 
 import androidx.annotation.Nullable;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tita.aixiaoyuan.R;
 
 import java.util.List;
 
-public class EmojiAdapter extends BaseQuickAdapter< EmojiBean,BaseViewHolder> {
+public class EmojiAdapter extends BaseQuickAdapter< EmojiBean, BaseViewHolder> {
 
 
     public EmojiAdapter(@Nullable List<EmojiBean> data, int index, int pageSize) {

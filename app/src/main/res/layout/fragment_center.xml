@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:background="@color/top_bg_color"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
     <ScrollView
             android:background="@color/root_bg_color"
@@ -12,18 +13,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
             <TextView
-                    android:id="@+id/user_login_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/top_bg_color"
-                    android:drawableLeft="@drawable/center_default_head"
-                    android:drawablePadding="20dp"
-                    android:gravity="center_vertical"
-                    android:padding="13dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="登录/注册"
-                    android:textColor="@color/white" />
+                android:id="@+id/user_login_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:background="@color/top_bg_color"
+                android:drawableLeft="@drawable/center_default_head"
+                android:drawablePadding="20dp"
+                android:gravity="center_vertical"
+                android:padding="13dp"
+                android:text="登录/注册"
+                android:textColor="@color/white" />
+
             <LinearLayout
                     android:id="@+id/user_logined_ll"
                     android:visibility="gone"
@@ -33,10 +36,12 @@
                     android:gravity="center_vertical"
                     android:layout_height="wrap_content">
 
-                <ImageView
+                <com.tita.aixiaoyuan.utils.RoundImageView
                         android:id="@+id/user_head_iv"
                         android:src="@drawable/center_default_head"
                         android:layout_width="80dp"
+                        android:scaleType="fitXY"
+                        app:type1="circle"
                         android:layout_height="80dp" />
 
                 <LinearLayout
@@ -48,7 +53,8 @@
                     <TextView
                             android:id="@+id/user_name_tv"
                             android:layout_width="wrap_content"
-                            android:text="张三"
+                            android:textSize="16sp"
+                            android:text=""
                             android:textColor="@color/white"
                             android:layout_height="wrap_content" />
 
@@ -56,7 +62,7 @@
                             android:id="@+id/user_location_tv"
                             android:layout_marginTop="10dp"
                             android:layout_width="wrap_content"
-                            android:text="湖南省长沙市"
+                            android:text=""
                             android:textColor="@color/white"
                             android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -71,9 +77,10 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@drawable/shape_white"
                     android:orientation="vertical"
                     android:layout_margin="0dp"
+                    android:layout_marginTop="2dp"
                     android:padding="5dp"
                     >
                 <TextView
@@ -149,7 +156,7 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                android:background="@drawable/shape_white"
                     android:paddingTop="5dp"
                     android:layout_marginTop="5dp"
                     android:padding="5dp"
@@ -202,7 +209,7 @@
                     android:layout_marginTop="5dp"
                     android:text="设置"
                     android:drawableLeft="@drawable/common_problem"
-                    android:background="@color/white"
+                android:background="@drawable/shape_white"
                     android:gravity="center_vertical"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/right_arrow"
@@ -214,7 +221,7 @@
                     android:layout_marginTop="1dp"
                     android:text="常见问题"
                     android:drawableLeft="@drawable/common_problem"
-                    android:background="@color/white"
+                android:background="@drawable/shape_white"
                     android:gravity="center_vertical"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/right_arrow"
@@ -226,7 +233,7 @@
                     android:layout_marginTop="1dp"
                     android:text="服务中心"
                     android:drawableLeft="@drawable/common_problem"
-                    android:background="@color/white"
+                android:background="@drawable/shape_white"
                     android:gravity="center_vertical"
                     android:drawablePadding="10dp"
                     android:drawableRight="@drawable/right_arrow"

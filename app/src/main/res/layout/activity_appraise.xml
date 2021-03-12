@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/root_bg_color"
+    android:orientation="vertical"
+    tools:context=".ui.AppraiseActivity">
+    <RelativeLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_15"
+            android:id="@+id/back_btn"
+            android:text="返回"
+            android:textSize="14sp"
+            />
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/message_id"
+            android:padding="@dimen/dp_15"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="评价"/>
+        <TextView
+            android:layout_marginVertical="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/dp_15"
+            android:paddingVertical="@dimen/dp_5"
+            android:id="@+id/btn_publish"
+            android:text="确定"
+            android:textSize="14sp"
+            android:background="@drawable/bg_btn_gray"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ed_goodinfomation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_white"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/salepage_head"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/goods_titel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="商品标题"
+            android:padding="10dp"
+            android:textColor="@color/text_main"
+            android:textColorHint="@color/text_main1"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/good_appraise"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:background="@null"
+            android:gravity="start|top"
+            android:hint="输入评价"
+            android:padding="10dp"
+            android:textColor="@color/text_main"
+            android:textColorHint="@color/text_main1"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

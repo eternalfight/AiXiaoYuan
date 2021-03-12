@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/sp_12"
-        android:text="颜色分类"
+        android:text="分类"
         android:textColor="@color/colorPrimary"/>
 
     <com.zhy.view.flowlayout.TagFlowLayout

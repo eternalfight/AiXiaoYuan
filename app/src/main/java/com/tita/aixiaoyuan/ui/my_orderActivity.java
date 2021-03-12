@@ -5,18 +5,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import com.tita.aixiaoyuan.Adapter.HomePagerAdapter;
+import com.tita.aixiaoyuan.R;
+import com.tita.aixiaoyuan.app.fragment.Fragment_all_order;
+import com.tita.aixiaoyuan.app.fragment.Fragment_wait_for_deliver;
+import com.tita.aixiaoyuan.app.fragment.Fragment_wait_for_evaluate;
+import com.tita.aixiaoyuan.app.fragment.Fragment_wait_for_pay;
+import com.tita.aixiaoyuan.app.fragment.Fragment_wait_for_recive;
+
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnPageChange;
-import com.tita.aixiaoyuan.Adapter.HomePagerAdapter;
-import com.tita.aixiaoyuan.R;
-import com.tita.aixiaoyuan.app.fragment.*;
-
-import java.util.ArrayList;
 
 public class my_orderActivity extends AppCompatActivity {
 
@@ -59,8 +66,6 @@ public class my_orderActivity extends AppCompatActivity {
         fragments.add(new Fragment_wait_for_deliver());
         fragments.add(new Fragment_wait_for_recive());
         fragments.add(new Fragment_wait_for_evaluate());
-
-
         // 2.适配器
         HomePagerAdapter homePagerAdapter = new HomePagerAdapter(getSupportFragmentManager(), fragments);
 

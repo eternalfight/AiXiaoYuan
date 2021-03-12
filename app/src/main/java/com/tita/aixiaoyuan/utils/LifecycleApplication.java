@@ -7,18 +7,25 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.bumptech.glide.request.target.ViewTarget;
 import com.hjq.toast.ToastUtils;
+import com.tita.aixiaoyuan.R;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
+import cn.bmob.v3.Bmob;
+
 public class LifecycleApplication extends Application {
+
+
     private static final String TAG = "AppLifecycleCallback";
-    public static Application		mApplication;
+    public static Application mApplication;
 
 
     private static LifecycleApplication INSTANCE;
+
 
     public static LifecycleApplication INSTANCE() {
         return INSTANCE;
@@ -40,11 +47,12 @@ public class LifecycleApplication extends Application {
         ToastUtils.init(this);
         Utils.init(this);
         init();
-
+        Bmob.initialize(this, "e948069712e2bfa770ad378d9ce1ff73");
         ///TODO 集成：1.8、初始化IM SDK，并注册消息接收器，只有主进程运行的时候才需要初始化
         if (getApplicationInfo().packageName.equals(getMyProcessName())) {
             //BmobIM.init(this);
             //BmobIM.registerDefaultMessageHandler(new DemoMessageHandler(this));
+            ViewTarget.setTagId(R.id.item_position);
         }
     }
 
@@ -64,6 +72,7 @@ public class LifecycleApplication extends Application {
             return null;
         }
     }
+
 
 
     private void init() {

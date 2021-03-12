@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="#f8f8f8"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:orientation="vertical"
+        android:background="#f8f8f8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/salepage_head"
@@ -41,13 +46,56 @@
             android:paddingVertical="@dimen/dp_5"
             android:paddingLeft="@dimen/dp_9"
             android:paddingRight="@dimen/dp_9"
-            android:text="发布"
+            android:text="预览"
             android:background="@drawable/blue_button_background"
             android:textSize="14sp"
             android:layout_alignParentEnd="true"
             />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/type_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_white"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/salepage_head"
+        app:layout_constraintVertical_bias="0.0">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/salepage_head"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:padding="5dp"
+            android:text="商品类型"
+            android:textColor="@color/text_main"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/type_tv"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:padding="5dp"
+            android:layout_marginLeft="@dimen/dp_170"
+            android:background="@drawable/shape_white"
+            android:textColor="@color/text_color"
+            android:text="购物"
+            android:textSize="16sp" />
+    </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ed_goodinfomation"
@@ -59,7 +107,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/salepage_head"
+        app:layout_constraintTop_toBottomOf="@+id/type_lv"
         app:layout_constraintVertical_bias="0.0">
 
         <EditText
@@ -96,7 +144,49 @@
             android:overScrollMode="never" />
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/produCut_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_white"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ed_goodinfomation"
+        app:layout_constraintVertical_bias="0.0">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:padding="5dp"
+                android:text="    库存"
+                android:textColor="@color/text_main"
+                android:textSize="16sp" />
+            <EditText
+                android:id="@+id/produCut_et"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:padding="5dp"
+                android:layout_marginLeft="@dimen/dp_195"
+                android:background="@drawable/shape_white"
+                android:hint="0"
+                android:textColor="@color/colo_money"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/linerLayout_price"
         android:layout_width="match_parent"
@@ -108,7 +198,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ed_goodinfomation"
+        app:layout_constraintTop_toBottomOf="@+id/produCut_lv"
         app:layout_constraintVertical_bias="0.0">
 
     <LinearLayout
@@ -154,7 +244,48 @@
 
     </LinearLayout>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/detial_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_white"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linerLayout_price"
+        app:layout_constraintVertical_bias="0.0">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/sqytp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:padding="5dp"
+                android:text="详情页图片"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_main"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/productDetial_pic"
+                android:layout_below="@+id/sqytp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_add_image" />
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

@@ -191,6 +191,7 @@
                     android:textSize="@dimen/textSize"
                     android:gravity="center"/>
                 <EditText
+                    android:background="@null"
                     android:id="@+id/search_header_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

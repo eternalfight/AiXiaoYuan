@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -14,42 +12,32 @@
         android:textSize="15sp"
         android:gravity="center"
         android:textStyle="bold"
+        android:textColor="@color/title_black"
         android:text="聊天"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#FF5722"
+        android:background="#FFFFFF"
         />
-    <ScrollView
-        android:background="@color/root_bg_color"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
-        <LinearLayout
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <com.scwang.smart.refresh.layout.SmartRefreshLayout
 
-                android:orientation="vertical"
+            <pl.droidsonroids.gif.GifImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <pl.droidsonroids.gif.GifImageView
-                    android:layout_height="0dp"
-                    android:layout_width="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/mesg"
-                    />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/Message_recycleview"
-                    />
-                <com.scwang.smart.refresh.footer.ClassicsFooter
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-        </LinearLayout>
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/mesg" />
 
-    </ScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/Message_recycleview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
 </LinearLayout>

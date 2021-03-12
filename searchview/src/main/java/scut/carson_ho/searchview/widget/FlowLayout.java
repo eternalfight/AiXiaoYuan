@@ -5,13 +5,13 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import scut.carson_ho.searchview.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import scut.carson_ho.searchview.R;
+
 /**
- * Created by zhouzhenhua on 2018/5/24.
  * FlowLayout 类
  */
 

@@ -16,10 +16,10 @@
 
         <com.yc.cn.ycbannerlib.banner.BannerView
             android:id="@+id/good_bannerView"
-            app:hint_mode="point"
-            android:layout_marginTop="44dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp"/>
+            android:layout_height="260dp"
+            android:layout_marginTop="44dp"
+            app:hint_mode="point" />
 
         <View
             android:layout_width="match_parent"
@@ -124,7 +124,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:text="黑色, 1件"
+                android:text=""
                 android:textColor="#222222"
                 android:textSize="14sp" />
         </LinearLayout>

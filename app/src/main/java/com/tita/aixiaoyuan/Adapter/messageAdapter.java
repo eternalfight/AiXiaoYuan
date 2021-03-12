@@ -12,10 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tita.aixiaoyuan.R;
+import com.tita.aixiaoyuan.model.MessageDataBean;
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MyViewHolder> {
 
@@ -24,6 +35,8 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MyViewHo
     private List<String> Times = new ArrayList<>();
     private List<String> LastMessage = new ArrayList<>();
 
+    private List<MessageDataBean> msgData = new ArrayList<>();
+    MessageDataBean messageDataBean;
     public messageAdapter() {
         //addData();//初始化数据
     }
@@ -33,6 +46,7 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MyViewHo
     private int[] icons = {R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head,R.drawable.center_default_head};
     private String[] times = {"20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20","20/19/20"};
     private String[] lastMessages = {"最新消息hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息","最新消息"};
+
 
 
 
@@ -67,6 +81,52 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MyViewHo
 
     //添加数据
     public void addData() {
+
+
+
+        Flowable.create(new FlowableOnSubscribe<MessageDataBean>() {
+
+            @Override
+            public void subscribe(@io.reactivex.annotations.NonNull FlowableEmitter<MessageDataBean> emitter) throws Exception {
+
+                for (int i=0;i<10;i++){
+                    messageDataBean.setUsernames("ssss");
+                    messageDataBean.setIcns(R.drawable.center_default_head);
+                    messageDataBean.setTimes("20/19/20");
+                    messageDataBean.setLastMessage("最新消息...");
+                    //msgData.add(messageDataBean);
+                    emitter.onNext(messageDataBean);
+
+                }
+
+
+            }
+        }, BackpressureStrategy.BUFFER)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MessageDataBean>() {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        s.request(3);
+                    }
+
+                    @Override
+                    public void onNext(MessageDataBean messageDataBean) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+
         try {
             //  在list中添加数据，并通知条目加入一条
             Username.addAll(Arrays.asList(usernames));

@@ -2,23 +2,29 @@ package com.tita.aixiaoyuan.app.fragment;
 
 import android.view.View;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.scwang.smart.refresh.footer.ClassicsFooter;
-import com.scwang.smart.refresh.layout.SmartRefreshLayout;
-import com.tita.aixiaoyuan.Adapter.ListAdapter;
-import com.tita.aixiaoyuan.R;
 import com.tita.aixiaoyuan.app.i.ScrollableContainer;
-import com.tita.aixiaoyuan.ui.MainActivity;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
 
 public class SearchNestedScrollingBaseFragment extends BaseFragmentJava implements ScrollableContainer {
-    @BindView(R.id.recycleview1)
+    @Override
+    protected int setLayoutResourceID() {
+        return 0;
+    }
+
+    @Override
+    protected void setUpView() {
+
+    }
+
+    @Override
+    protected void setUpData() {
+
+    }
+
+    @Override
+    public View getScrollableView() {
+        return null;
+    }
+   /* @BindView(R.id.recycleview1)
     RecyclerView recyclerview;
     @BindView(R.id.smartrexfresh)
     SmartRefreshLayout smartrexfresh;
@@ -99,7 +105,7 @@ public class SearchNestedScrollingBaseFragment extends BaseFragmentJava implemen
             }
         }
 
-        /*adapter.notifyDataSetChanged();
+        *//*adapter.notifyDataSetChanged();
         if (smartrexfresh.isRefreshing()) {
             smartrexfresh.setRefreshing(false);
         }
@@ -107,6 +113,6 @@ public class SearchNestedScrollingBaseFragment extends BaseFragmentJava implemen
             //Toast.makeText(getContext(), "刷新完毕", Toast.LENGTH_SHORT).show();
         } else {
             // Toast.makeText(getContext(), "加载完毕", Toast.LENGTH_SHORT).show();
-        }*/
-    }
+        }*//*
+    }*/
 }

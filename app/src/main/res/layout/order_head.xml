@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="#F5EDC5"
-    android:layout_margin="10dp"
     >
     <TextView
         android:layout_width="0dp"
@@ -15,7 +14,7 @@
         android:padding="10dp"
         android:drawableLeft="@drawable/shop_icon"
         android:drawablePadding="5dp"
-        android:text="店铺名"/>
+        android:text="订单号"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -23,5 +22,5 @@
         android:layout_weight="1"
         android:textSize="15sp"
         android:textColor="#FF9800"
-        android:text="待付款"/>
+        android:text="状态：待付款"/>
 </LinearLayout>

@@ -11,7 +11,7 @@
     <stroke
         android:width="2dp"
         android:color="@android:color/white"
-        android:dashWidth="1dp"
+        android:dashWidth="0dp"
         android:dashGap="2dp"/>
 
     <corners

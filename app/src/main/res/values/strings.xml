@@ -47,5 +47,14 @@
     <string name="xlistview_footer_hint_allload">没有更多咯~</string>
 
     <string name="mybehavior">com.tita.aixiaoyuan.app.widget.MyBehavior</string>
-    <string name="et_hint_goodinfo">品牌型号，新旧程度，入手渠道，转手原因...</string>
+    <string name="et_hint_goodinfo">关于该产品的介绍...</string>
+    <string name="title_activity_user_setting">UserSettingActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

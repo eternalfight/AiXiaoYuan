@@ -44,11 +44,26 @@
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/icon_round"
         android:supportsRtl="true"
         android:theme="@style/TranslucentTheme"
         tools:replace="android:theme,android:icon,android:roundIcon">
-        <activity android:name=".ui.ShopDetialActivity"></activity>
+        <activity android:name=".ui.PayActivity"></activity>
+        <activity android:name=".ui.SearchResultActivity" />
+        <activity android:name=".ui.selectproductDetialPicActivity" />
+        <activity android:name=".ui.setNickNameActivity" />
+        <activity android:name=".ui.setPhoneActivity" />
+        <activity android:name=".ui.setLocationActivity" />
+        <activity android:name=".ui.changePasswordActivity" />
+        <activity
+            android:name=".ui.UserSettingActivity"
+            android:label="@string/title_activity_user_setting"
+            android:theme="@style/TranslucentTheme.NoActionBar" />
+        <activity android:name=".ui.AppraiseActivity" />
+        <activity android:name=".ui.myDealActivity" />
+        <activity android:name=".ui.ShopDetialActivity" />
         <activity android:name=".ui.PublishSuccessActivity" />
         <activity
             android:name="com.kylin.annotationpermission.permission.PermissionActivity"

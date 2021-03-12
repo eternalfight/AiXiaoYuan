@@ -1,6 +1,7 @@
 package com.tita.aixiaoyuan.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -72,7 +73,8 @@ public class SearchActivity extends AppCompatActivity implements TextView.OnEdit
 
     // 搜索历史
     private List<String> mSearchHistoryLists;
-
+    //输入关键词
+    private String searchInput;
     // 存储 搜索历史集合 的工具类
     private StorageListSPUtils mStorageListSPUtils;
     @Override
@@ -160,7 +162,7 @@ public class SearchActivity extends AppCompatActivity implements TextView.OnEdit
      */
     private void processAction() {
         // 获取 EditText 输入内容
-        String searchInput = mSearchHeaderTv.getText().toString().trim();
+        searchInput = mSearchHeaderTv.getText().toString().trim();
         if (TextUtils.isEmpty(searchInput)) {
             Toast.makeText(this, getResources().getString(R.string.app_search_input_empty), Toast.LENGTH_SHORT).show();
         } else {
@@ -195,7 +197,8 @@ public class SearchActivity extends AppCompatActivity implements TextView.OnEdit
             }
             // 存储新的搜索历史到 SharedPreferences
             mStorageListSPUtils.saveDataList(TAG_SEARCH_HISTORY, mSearchHistoryLists);
-            Toast.makeText(this, getResources().getString(R.string.app_search_input) + searchInput, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, getResources().getString(R.string.app_search_input) + searchInput, Toast.LENGTH_SHORT).show();
+            putData();
         }
     }
 
@@ -236,6 +239,7 @@ public class SearchActivity extends AppCompatActivity implements TextView.OnEdit
             case R.id.search_btn_search:
                 // 存取 SharedPreferences 中存储的搜索历史并做相应的处理
                 processAction();
+                finish();
                 break;
             case R.id.header_back_image:
                 // 回退
@@ -243,5 +247,11 @@ public class SearchActivity extends AppCompatActivity implements TextView.OnEdit
                 break;
         }
     }
+
+   private void putData(){
+       Intent intent = new Intent(this,SearchResultActivity.class);
+       intent.putExtra("input", searchInput);
+       startActivityForResult(intent,0);
+   }
 
 }

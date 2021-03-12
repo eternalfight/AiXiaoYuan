@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.selectproductDetialPicActivity">
+    <RelativeLayout
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/salepage_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_12"
+            android:id="@+id/btn_cancle"
+            android:text="取消"
+            android:textSize="14sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:id="@+id/sale_title"
+            android:text="选择图片"
+            android:textSize="17sp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_7"
+            android:id="@+id/btn_finish"
+            android:paddingVertical="@dimen/dp_5"
+            android:paddingLeft="@dimen/dp_9"
+            android:paddingRight="@dimen/dp_9"
+            android:text="完成"
+            android:background="@drawable/blue_button_background"
+            android:textSize="14sp"
+            android:layout_alignParentEnd="true"
+            />
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/detial_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_white"
+        android:orientation="vertical"
+        android:padding="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/salepage_head"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintVertical_bias="0.0">
+
+        <ScrollView
+            android:scrollbarSize="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/sqytp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:padding="5dp"
+                android:text="详情页图片"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/text_main"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/productDetial_pic"
+                android:layout_below="@+id/sqytp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_add_image" />
+
+
+        </RelativeLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

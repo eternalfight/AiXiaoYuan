@@ -22,9 +22,9 @@ import com.tita.aixiaoyuan.Adapter.HomePagerAdapter;
 import com.tita.aixiaoyuan.Chat.event.RefreshEvent;
 import com.tita.aixiaoyuan.R;
 import com.tita.aixiaoyuan.app.fragment.CentreFragment;
-import com.tita.aixiaoyuan.app.fragment.ContentsFragment;
 import com.tita.aixiaoyuan.app.fragment.HomeFragment;
 import com.tita.aixiaoyuan.app.fragment.MessageFragment;
+import com.tita.aixiaoyuan.app.fragment.ShopCarFragment;
 import com.tita.aixiaoyuan.model.User;
 
 import org.greenrobot.eventbus.EventBus;
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.iv_conversation_tips) ImageView iv_conversation_tips;
     @BindView(R.id.sale_btn) LinearLayout btn_sale;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -79,13 +80,13 @@ public class MainActivity extends AppCompatActivity {
 
         // 1.往集合里面添加Fragment
         fragments.add(new HomeFragment());
-        fragments.add(new ContentsFragment());
+        fragments.add(new ShopCarFragment());
         fragments.add(new MessageFragment());
         fragments.add(new CentreFragment());
 
         // 2.适配器
         HomePagerAdapter homePagerAdapter =new HomePagerAdapter(getSupportFragmentManager(),fragments);
-
+        mViewPager.setOffscreenPageLimit(4);
         // 3.适配器 交给 ViewPager
         mViewPager.setAdapter(homePagerAdapter);
 
@@ -255,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
         //每次进来应用都检查会话和好友请求的情况
         //checkRedPoint();
         //进入应用后，通知栏应取消
-       // BmobNotificationManager.getInstance(this).cancelNotification();
+        // BmobNotificationManager.getInstance(this).cancelNotification();
     }
     /**
      *
@@ -335,4 +336,9 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe
     public void onEventMainThread(RefreshEvent event) {
         checkRedPoint();
-    }}
+    }
+
+
+
+
+}

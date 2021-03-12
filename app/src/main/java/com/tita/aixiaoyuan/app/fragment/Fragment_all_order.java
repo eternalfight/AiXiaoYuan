@@ -2,26 +2,45 @@ package com.tita.aixiaoyuan.app.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.tita.aixiaoyuan.Adapter.OrderAdapter;
 import com.tita.aixiaoyuan.R;
+import com.tita.aixiaoyuan.model.OrderBean;
 
-import butterknife.ButterKnife;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Fragment_all_order extends Fragment {
-    @Nullable
+import butterknife.BindView;
+
+public class Fragment_all_order extends BaseFragmentJava {
+    @BindView(R.id.orderRecycleView)
+    RecyclerView orderRecycleView;
+    OrderAdapter orderAdapter;
+    private OrderBean.DataBean dataBean;
+    private OrderBean orderBean;
+    private List<OrderBean.DataBean> data;
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_all_order, null);
-        //返回一个Unbinder值（进行解绑），注意这里的this不能使用getActivity()
-        ButterKnife.bind(this, view);
-        return view;
+    protected int setLayoutResourceID() {
+        return R.layout.fragment_all_order;
+    }
+
+    @Override
+    protected void setUpView() {
+
+
+        initData();
+        initView();
+    }
+
+    @Override
+    protected void setUpData() {
+
     }
 
     @Override
@@ -43,4 +62,33 @@ public class Fragment_all_order extends Fragment {
     public void onDestroy() {
         super.onDestroy();
     }
+
+    public void initView(){
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        orderRecycleView.setLayoutManager(manager);
+        Log.i("data", "initView: "+orderBean.getData());
+        orderAdapter = new OrderAdapter(getContext(),orderBean.getData());
+        orderRecycleView.setAdapter(orderAdapter);
+    }
+    public void initData(){
+        //orderBean = new OrderBean("1","1","0",data);
+        //OrderBean.DataBean dataBean1 = new OrderBean.DataBean("2020-10-22",115465464,111,1,"显卡",16);
+        dataBean = new OrderBean.DataBean();
+        dataBean.setCreatetime("2020-10-21");
+        dataBean.setOrderid(115465464);
+        dataBean.setPrice(12);
+        dataBean.setStatus(1);
+        dataBean.setTitle("显卡");
+        dataBean.setUid(15);
+        data = new ArrayList<>();
+        //data.add(dataBean1);
+        //dataBean = new OrderBean.DataBean("2020-10-21",115465464,12,1,"显卡",15);
+        data.add(dataBean);
+        orderBean = new OrderBean("1","1","0",data);
+
+
+    }
+
+
 }

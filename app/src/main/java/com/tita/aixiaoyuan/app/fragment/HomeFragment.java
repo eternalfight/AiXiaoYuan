@@ -25,12 +25,14 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import com.tita.aixiaoyuan.Adapter.ImageResourceAdapter;
-import com.tita.aixiaoyuan.Adapter.SearchNestedScrollingFragmentAdapter;
 import com.tita.aixiaoyuan.Adapter.TagFragmentAdapter;
 import com.tita.aixiaoyuan.R;
 import com.tita.aixiaoyuan.app.viewHolder.ImageResourceViewHolder;
-import com.tita.aixiaoyuan.app.widget.XRefreshLayout;
+import com.tita.aixiaoyuan.model.EventMsg;
+import com.tita.aixiaoyuan.model.productInfoBean;
 import com.tita.aixiaoyuan.ui.SearchActivity;
+import com.tita.aixiaoyuan.utils.RxBus;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.zhpan.bannerview.BannerViewPager;
 import com.zhpan.bannerview.annotation.APageStyle;
 import com.zhpan.bannerview.constants.PageStyle;
@@ -44,43 +46,29 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment{
     RecyclerView recyclerView;
     TabLayout tabLayout;
     ViewPager viewPager;
-/*    @BindView(R.id.searchLan)
-    TextView tv_searchLan;*/
     RecyclerView recyclerview;
     @BindView(R.id.tvSearchBtn)
     TextView tv_searchLan;
-   /* @BindView(R.id.appbarlayout)
-    AppBarLayout appbarlayout;*/
-   /* @BindView(R.id.rlSearchBarCover)
-    RelativeLayout rlSearchBarCover;*/
     @BindView(R.id.rlSearchBar)
     RelativeLayout rlSearchBar;
-   /* @BindView(R.id.tvSearchContentCover)
-    TextView tvSearchContentCover;*/
-   /* @BindView(R.id.tvSearchBtnCover)
-    TextView tvSearchBtnCover;*/
-   /* @BindView(R.id.rlSearchBarCoverLayout)
-    RelativeLayout rlSearchBarCoverLayout;*/
-    /*@BindView(R.id.refreshview)
-    XRefreshView refreshview;*/
-   /* @BindView(R.id.nestedScrollView)
-    NestedScrollView nestedScrollView;*/
     @BindView(R.id.tablayout1)
     TabLayout TabLayout;
     @BindView(R.id.viewpager_view1)
     ViewPager viewpager;
-    /*@BindView(R.id.coordinatorLayout)
-    MyCoordinatorLayout coordinatorLayout;*/
     @BindView(R.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avi;
     private int i = 0;
     private ArrayList<Fragment> fragments;
-    private SearchNestedScrollingFragmentAdapter fragmentAdapter;
     private BannerViewPager<Integer, ImageResourceViewHolder> mViewPager;
     public List<Integer> mPictureList = new ArrayList<>();
 
@@ -88,7 +76,7 @@ public class HomeFragment extends BaseFragment {
 
     public static final int STATUS_EXPANDED = 1;
     public static final int STATUS_COLLAPSED = 2;
-    private XRefreshLayout xRefreshLayout;
+
     private int headHeight;
     private int maxHeadTopHeight,minHeadTopHeight,maxLimit,minLimit,maxMarginBottom,marginLeft;
     private int searchBarHeight,textSize;
@@ -97,7 +85,6 @@ public class HomeFragment extends BaseFragment {
 
     private List<String> tabs;
     private int tabCount = 4;
-
     TagFragmentAdapter myFragmentPagerAdapter;
     private List<String> data_list;
     private LinearLayoutManager linearLayoutManager;
@@ -110,6 +97,7 @@ public class HomeFragment extends BaseFragment {
      */
     public static int mStatus = STATUS_EXPANDED;
     public int lastVerticalOffset=1;
+    private Boolean loadMore = false;
 
     public static HomeFragment getInstance() {
         return new HomeFragment();
@@ -136,7 +124,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView(@org.jetbrains.annotations.Nullable Bundle savedInstanceState, @NotNull View view) {
         ButterKnife.bind(this, view);
-        //ButterKnife.bind(R.id.recycler_view, view);
+        startAnim();
 
         recyclerView = view.findViewById(R.id.recycleview1);
         tabLayout = view.findViewById(R.id.tablayout1);
@@ -154,29 +142,29 @@ public class HomeFragment extends BaseFragment {
         setupBanner(PageStyle.MULTI_PAGE_OVERLAP);
         setNetEaseMusicStyle();
 
-
-
         preData();
-        initView();
+        //initView();
         initData();
         //initListener();
         refreshLayout.setRefreshHeader(new ClassicsHeader(getContext()));
+        refreshLayout.setEnableLoadMore(false);
         //refreshLayout.setRefreshFooter(new ClassicsFooter(getContext()));
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000);//传入false表示刷新失败
+                loadMore = true;
+                orderData();
+                startAnim();
+                //refreshlayout.finishRefresh(2000);//传入false表示刷新失败
+
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadMore(2000);//传入false表示加载失败
+
             }
         });
-
-
-
     }
 
 
@@ -186,25 +174,11 @@ public class HomeFragment extends BaseFragment {
         tabs.add("外卖");
         tabs.add("跑腿");
         tabs.add("闲置");
-        fragments = new ArrayList<Fragment>();
-        /*for(int i=0;i<tabCount;i++){
-           // SearchNestedScrollingBaseFragment fragment = new SearchNestedScrollingBaseFragment();
-            fragment.setIndex(i);
-            fragments.add(fragment);
-        }*/
-        fragments.add(new TabFragment());
-        fragments.add(new TabFragment());
-        fragments.add(new TabFragment());
-        fragments.add(new TabFragment());
+        orderData();
     }
 
     private void initView() {
 
-       // fragmentAdapter = new SearchNestedScrollingFragmentAdapter(getChildFragmentManager(),fragments);
-       // viewpager.setAdapter(fragmentAdapter);
-        //viewPager.setOffscreenPageLimit(1);
-        //coordinatorLayout.setCurrentScrollableContainer(fragments.get(0));
-        //smartTabLayout.setCustomTabView(new MyTabProvider());
         tabLayout.setupWithViewPager(viewpager);
         myFragmentPagerAdapter = new TagFragmentAdapter(getChildFragmentManager(),fragments);
         viewPager.setAdapter(myFragmentPagerAdapter);
@@ -213,6 +187,7 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initData(){
+
         headHeight = (int) this.getResources().getDimension(R.dimen.headHeight);
         minHeadTopHeight = (int) this.getResources().getDimension(R.dimen.minHeadTopHeight);
         maxHeadTopHeight = (int) this.getResources().getDimension(R.dimen.maxHeadTopHeight);
@@ -228,80 +203,6 @@ public class HomeFragment extends BaseFragment {
         minLimit = (int) this.getResources().getDimension(R.dimen.minLimit);
     }
 
-  //  private TagFragmentAdapter tapFragmentAdapter;
-
-    /*public void initView(){
-            tabFragmentList.add(new ShopFragment());
-            tabFragmentList.add(new FoodFragment());
-            tabFragmentList.add(new RunFragment());
-            tabFragmentList.add(new IdelFragment());
-            // 2.适配器
-           TagFragmentAdapter tapFragmentAdapter = new TagFragmentAdapter(getChildFragmentManager(),tabFragmentList){
-                @Override
-                public void startUpdate(@NonNull ViewGroup container) {
-                    super.startUpdate(container);
-                }
-            };
-            // 3.适配器 交给 ViewPager
-            viewPager.setAdapter(tapFragmentAdapter);
-            //设置TabLayout和ViewPager联动
-            tabLayout.setupWithViewPager(viewPager,false);
-            viewPager.setOffscreenPageLimit(4);
-
-        xRefreshLayout = new XRefreshLayout(getContext());
-        refreshview.setCustomHeaderView(xRefreshLayout);
-        refreshview.setPinnedContent(true);
-
-        }*/
-
-
-/*    private void initListener(){
-        refreshview.setXRefreshViewListener(new XRefreshView.SimpleXRefreshListener(){
-            @Override
-            public void onRefresh() {
-                super.onRefresh();
-                refreshview.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshview.stopRefresh();
-                    }
-                },1000);
-            }
-
-            @Override
-            public void onHeaderMove(double offset, int offsetY) {
-                super.onHeaderMove(offset, offsetY);
-                //offset:移动距离和headerview高度的比例。范围是0~1，0：headerview全然没显示 1：headerview全然显示
-            }
-
-            @Override
-            public void onRefresh(boolean isPullDown) {
-                super.onRefresh(isPullDown);
-            }
-
-
-            @Override
-            public void onLoadMore(boolean isSilence) {
-                super.onLoadMore(isSilence);
-            }
-
-        });
-        */
-
-     /*   viewpager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                //coordinatorLayout.setCurrentScrollableContainer(fragments.get(position));
-            }
-        });*/
-
-      /*  coordinatorLayout.setAppBarLayoutObserved(this::getLayout);
-        coordinatorLayout.setxRefreshView(refreshview);
-        coordinatorLayout.setNestedScrollView(nestedScrollView);*/
-
-
-   // }
 
     @OnClick(R.id.rlSearchBar)
     public void onViewClicked(View view) {
@@ -345,14 +246,6 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-    private List<String> getData() {
-        List<String> data = new ArrayList<>();
-        for (int tempI = i; i < tempI + 10; i++) {
-            data.add("ChildView item " + i);
-        }
-        return data;
-    }
-
 
     // 网易云音乐样式
     private void setNetEaseMusicStyle() {
@@ -365,62 +258,98 @@ public class HomeFragment extends BaseFragment {
         mViewPager.removeDefaultPageTransformer();
     }
 
-
-   /* private class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        private final static int TYPE_CONTENT = 0;//正常内容
-        private final static int TYPE_FOOTER = 1;//加载View
-
-        @Override
-        public int getItemViewType(int position) {
-            if (position == data_list.size()) {
-                return TYPE_FOOTER;
-            }
-            return TYPE_CONTENT;
+    private List<productInfoBean> list1 = new ArrayList<>(); //购物
+    private List<productInfoBean> list2 = new ArrayList<>(); //外卖
+    private List<productInfoBean> list3 = new ArrayList<>(); //跑腿
+    private List<productInfoBean> list4 = new ArrayList<>(); //闲置
+    private int flag = 0;//查询完成标志
+    private void orderData(){
+        if (loadMore){
+            list1.clear();
+            list2.clear();
+            list3.clear();
+            list4.clear();
         }
+        BmobQuery<productInfoBean> query = new BmobQuery<productInfoBean>();
+        query.order("-updatedAt");
+        query.findObjects(new FindListener<productInfoBean>(){
+            @Override
+            public void done(List<productInfoBean> list, BmobException e) {
+                if (e == null){
+                    if (list.size() == 0){
+                        ToastUtils.show("没有数据");
+                    }else {
+                        //数据分类
+                        for (int i=0;i<list.size();i++){
+                            switch (list.get(i).getOne_category_id()){
+                                case 0:
+                                    list1.add(list.get(i));
+                                    break;
+                                case 1:
+                                    list2.add(list.get(i));
+                                    break;
+                                case 2:
+                                    list3.add(list.get(i));
+                                    break;
+                                case 3:
+                                    list4.add(list.get(i));
+                                    break;
+                            }
+                        }
+                        Log.i("orderData", "done: list1:" + list1.size());
+                        Log.i("orderData", "done: list2:" + list2.size());
+                        Log.i("orderData", "done: list3:" + list3.size());
+                        Log.i("orderData", "done: list4:" + list4.size());
 
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            if (viewType == TYPE_FOOTER) {
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.activity_main_foot, parent, false);
-                return new FootViewHolder(view);
-            } else {
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
-                MyViewHolder myViewHolder = new MyViewHolder(view);
-                return myViewHolder;
+                        if (loadMore){
+                            loadMore = false;
+                            refreshLayout.finishRefresh();
+                            EventMsg eventMsg = new EventMsg();
+                            eventMsg.setMsg("1");
+                            RxBus.getInstance().post(eventMsg);
+                        }
+                        stopAnim();
+                        initFragment();
+                        initView();
+                    }
+                }else {
+                    Log.e("TAG", "查询失败:"+e.getMessage());
+                }
+
             }
-        }
+        });
+    }
 
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            if (getItemViewType(position) == TYPE_FOOTER) {
-            } else {
-                MyViewHolder viewHolder = (MyViewHolder) holder;
-                viewHolder.textView.setText("第" + position + "行");
+    private void initFragment() {
+        fragments = new ArrayList<Fragment>();
+        for (int i=0;i < 4;i++){
+            Bundle data = new Bundle();
+            switch (i) {
+                case 0:
+                    data.putParcelableArrayList("list", (ArrayList<productInfoBean>) list1);
+                    break;
+                case 1:
+                    data.putParcelableArrayList("list", (ArrayList<productInfoBean>) list2);
+                    break;
+                case 2:
+                    data.putParcelableArrayList("list", (ArrayList<productInfoBean>) list3);
+                    break;
+                case 3:
+                    data.putParcelableArrayList("list", (ArrayList<productInfoBean>) list4);
+                    break;
             }
-        }
+            TabFragment tabFragment = new TabFragment();
+            tabFragment.setArguments(data);
+            fragments.add(tabFragment);
 
-
-        @Override
-        public int getItemCount() {
-            return data_list.size() + 1;
         }
     }
 
-    private class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textView;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            textView = itemView.findViewById(R.id.tv_index);
-        }
+    void startAnim(){
+        avi.smoothToShow();
     }
 
-    private class FootViewHolder extends RecyclerView.ViewHolder {
-        ContentLoadingProgressBar contentLoadingProgressBar;
-
-        public FootViewHolder(View itemView) {
-            super(itemView);
-            contentLoadingProgressBar = itemView.findViewById(R.id.pb_progress);
-        }
-    }*/
+    void stopAnim(){
+        avi.smoothToHide();
+    }
 }

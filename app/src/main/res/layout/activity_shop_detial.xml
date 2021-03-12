@@ -111,5 +111,14 @@
     <!--商品详情页标题-->
     <include layout="@layout/include_goods_details_bar"/>
 
-
+    <com.wang.avi.AVLoadingIndicatorView
+        android:layout_gravity="center"
+        android:id="@+id/avi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/AVLoadingIndicatorView"
+        android:visibility="visible"
+        app:indicatorName="BallPulseIndicator"
+        app:indicatorColor="#FF9800"
+        />
 </FrameLayout>
