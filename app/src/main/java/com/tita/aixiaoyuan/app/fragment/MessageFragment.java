@@ -17,11 +17,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.hjq.toast.ToastUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tita.aixiaoyuan.Adapter.MesAdapter;
 import com.tita.aixiaoyuan.Chat.activity.ChatActivity;
 import com.tita.aixiaoyuan.Chat.widget.SetPermissionDialog;
 import com.tita.aixiaoyuan.R;
+import com.tita.aixiaoyuan.app.widget.BubblePopupView;
 import com.tita.aixiaoyuan.model.MessageDataBean;
 
 import org.reactivestreams.Subscriber;
@@ -57,9 +60,7 @@ public class MessageFragment extends Fragment {
     }
     @BindView(R.id.message_id)
     TextView textView;
-    //@BindView(R.id.Message_recycleview)
     RecyclerView mRecycleVIew;
-    //private messageAdapter mAdapter;
     private MesAdapter mAdapter;
     private List<MessageDataBean> msgData = new ArrayList<>();
     MessageDataBean messageDataBean;
@@ -72,8 +73,6 @@ public class MessageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        int position = 0;
-
         List<String> popupItemList = new ArrayList<String>();
         messageDataBean = new MessageDataBean();
         popupItemList.add("删除");
@@ -81,44 +80,30 @@ public class MessageFragment extends Fragment {
         ButterKnife.bind(this, view);
         mRecycleVIew = view.findViewById(R.id.Message_recycleview);
         mRecycleVIew.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //mAdapter = new messageAdapter();
         mAdapter = new MesAdapter(msgData);
         mRecycleVIew.setAdapter(mAdapter);
-        //mAdapter.addData();
         mAdapter.setNewData(msgData);
         initData();
-        /*mAdapter.setOnItemClickListener(new messageAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onClick(int position) {
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 Intent intent = new Intent(getActivity(),ChatActivity.class);
                 startActivity(intent);
-                *//*new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        requestPermisson();
-                    }
-                }, 100);*//*
-                Toast.makeText(getActivity(), "click " + position, Toast.LENGTH_SHORT).show();
-            }
-        });*/
-/*
-        mAdapter.setOnTouchListener(new messageAdapter.OnTouchListener() {
-            @Override
-            public void onTouch(float mRawX, float mRawY) {
-                X = mRawX;
-                Y = mRawY;
+                ToastUtils.show("click " + position);
             }
         });
-        mAdapter.setOnItemLongClickListener(new messageAdapter.OnItemLongClickListener() {
+        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
-            public void onClick(int position, int[] location) {
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                X = view.getTranslationX();
+                Y = view.getY();
+                Log.i("Tag", "onItemLongClick: " +X+":"+Y);
                 //实例化BubblePopupView
                 BubblePopupView bubblePopup = new BubblePopupView(view.getContext());
                 //是否跟随手指显示，默认false，设置true后翻转高度无效，永远在上方显示
-                bubblePopup.setShowTouchLocation(true);
+                bubblePopup.setShowTouchLocation(false);
                 //要实现顶部气泡向下，需要添加翻转高度，默认为0不翻转（举例：导航栏高度40dp，列表item高度40dp,需设置40+40=80）
                 bubblePopup.setmReversalHeight(0f);
-
                 bubblePopup.showPopupListWindow(view, position, X, Y, popupItemList, new BubblePopupView.PopupListListener() {
                     @Override
                     public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
@@ -126,27 +111,25 @@ public class MessageFragment extends Fragment {
                     }
                     @Override
                     public void onPopupListClick(View contextView, int contextPosition, int position) {
-                        //Toast.makeText(contextView.getContext(), contextPosition + "," + position, Toast.LENGTH_SHORT).show();
-                        mAdapter.removeData(contextPosition);
-                       // Log.i("Tag", "onClick:  position:" + contextPosition);
+                        mAdapter.remove(contextPosition);
                     }
                 });
-
+                return false;
             }
-        });*/
-        //返回一个Unbinder值（进行解绑），注意这里的this不能使用getActivity()
+        });
         return view;
     }
+
+
     private Subscription mSubscription;
 
     private void initData(){
-
         Flowable.create(new FlowableOnSubscribe<MessageDataBean>() {
 
             @Override
             public void subscribe(@io.reactivex.annotations.NonNull FlowableEmitter<MessageDataBean> emitter) throws Exception {
-                sleep(3000);
-                for (int i=0;i<10000;i++){
+                sleep(2000);
+                for (int i=0;i<10;i++){
                     sleep(100);
                     messageDataBean.setUsernames("ssss");
                     messageDataBean.setIcns(R.drawable.center_default_head);

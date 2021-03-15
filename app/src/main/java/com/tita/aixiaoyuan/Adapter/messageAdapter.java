@@ -27,7 +27,7 @@ import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
+// 遗弃
 public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MyViewHolder> {
 
     private List<String> Username = new ArrayList<>();

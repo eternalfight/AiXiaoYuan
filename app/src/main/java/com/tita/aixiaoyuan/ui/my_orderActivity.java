@@ -71,6 +71,7 @@ public class my_orderActivity extends AppCompatActivity {
 
         // 3.适配器 交给 ViewPager
         myorderViewPager.setAdapter(homePagerAdapter);
+        myorderViewPager.setOffscreenPageLimit(5);
 
     }
 

@@ -50,7 +50,8 @@
         android:supportsRtl="true"
         android:theme="@style/TranslucentTheme"
         tools:replace="android:theme,android:icon,android:roundIcon">
-        <activity android:name=".ui.PayActivity"></activity>
+        <activity android:name=".ui.DeliverActvity"></activity>
+        <activity android:name=".ui.PayActivity" />
         <activity android:name=".ui.SearchResultActivity" />
         <activity android:name=".ui.selectproductDetialPicActivity" />
         <activity android:name=".ui.setNickNameActivity" />

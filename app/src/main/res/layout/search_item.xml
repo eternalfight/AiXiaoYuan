@@ -36,15 +36,28 @@
         android:layout_below="@+id/good_name_tv"
         />
     <TextView
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:id="@+id/count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:text="库存："
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_marginHorizontal="10dp"
         android:visibility="invisible"/>
-
+    <TextView
+        android:id="@+id/goto_deliver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:background="#FFC107"
+        android:text="去发货"
+        android:padding="@dimen/dp_5"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="50dp"
+        android:visibility="invisible"
+        android:layout_marginHorizontal="10dp"/>
 </RelativeLayout>
 </LinearLayout>

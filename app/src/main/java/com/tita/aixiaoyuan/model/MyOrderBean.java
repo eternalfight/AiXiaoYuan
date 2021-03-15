@@ -1,14 +1,14 @@
 package com.tita.aixiaoyuan.model;
 
-import com.parse.ParseClassName;
-import com.parse.ParseObject;
-
+import java.io.Serializable;
 import java.util.List;
 
-@ParseClassName("MyOrderBean")
-public class MyOrderBean extends ParseObject {
-   private String username = "username";
-   private String orderId = "orderId";
+import cn.bmob.v3.BmobObject;
+
+
+public class MyOrderBean extends BmobObject implements Serializable {
+   private String username;
+   private String orderId;
    private List<String> product_price ;
    private int order_status;
    private List<String> product_id;
@@ -18,11 +18,11 @@ public class MyOrderBean extends ParseObject {
    private String price;
 
     public String getUsername() {
-        return getString(username);
+        return username;
     }
 
     public void setUsername(String username) {
-        put(this.username,username);
+        this.username = username;
     }
 
     public String getOrderId() {

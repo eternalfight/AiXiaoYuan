@@ -11,9 +11,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hjq.toast.ToastUtils;
 import com.tita.aixiaoyuan.Adapter.GoodsSearchResultAdapter;
 import com.tita.aixiaoyuan.R;
+import com.tita.aixiaoyuan.model.EventMsg;
 import com.tita.aixiaoyuan.model.User;
 import com.tita.aixiaoyuan.model.productInfoBean;
 import com.tita.aixiaoyuan.ui.ShopDetialActivity;
+import com.tita.aixiaoyuan.utils.RxBus;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;
@@ -53,6 +55,9 @@ public class MySellFragment extends BaseFragmentJava{
         goodsSearchResultAdapter = new GoodsSearchResultAdapter(getContext(),productInfo,GoodsSearchResultAdapter.SEALER);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(goodsSearchResultAdapter);
+        EventMsg eventMsg = new EventMsg();
+        eventMsg.setMsg("MySellFragment");
+        RxBus.getInstance().post(eventMsg);
         goodsSearchResultAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {

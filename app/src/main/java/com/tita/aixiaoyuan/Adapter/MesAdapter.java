@@ -3,7 +3,7 @@ package com.tita.aixiaoyuan.Adapter;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tita.aixiaoyuan.R;
 import com.tita.aixiaoyuan.model.MessageDataBean;
@@ -11,7 +11,7 @@ import com.tita.aixiaoyuan.model.MessageDataBean;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MesAdapter extends BaseQuickAdapter<MessageDataBean, BaseViewHolder> {
+public class MesAdapter extends BaseItemDraggableAdapter<MessageDataBean, BaseViewHolder> {
     List<MessageDataBean> data =new ArrayList<>();
 
     public MesAdapter(List<MessageDataBean> data) {

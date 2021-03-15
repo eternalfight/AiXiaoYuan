@@ -200,9 +200,6 @@ public class ShopCarFragment extends BaseFragmentJava implements OnPriceClickLis
                             // listview删除数据
                             deleteList.add(cartAdapter.getItem(i).getObjectId());
                             orderList.add(cartAdapter.getItem(i));
-                        /*Log.i("PayActivity", "onViewClicked: ---------->"+orderList.get(i).getObjectId());
-                        Log.i("PayActivity", "onViewClicked: ---------->"+orderList.get(i).getProduct_Price());
-                        Log.i("PayActivity", "onViewClicked: ---------->"+orderList.get(i).getProduct_amount());*/
                             isCheck.remove(i);
                             checkBox.setChecked(false);
                         }
@@ -222,6 +219,12 @@ public class ShopCarFragment extends BaseFragmentJava implements OnPriceClickLis
 
         }
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getCarData(STATE_REFRESH);
     }
 
     private final int STATE_FLOAD = 2;  //第一次加载
@@ -273,10 +276,6 @@ public class ShopCarFragment extends BaseFragmentJava implements OnPriceClickLis
         Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
-/*                for (int i=0;i<deleteList.size();i++){
-                    delete(deleteList.get(i));
-                    emitter.onNext(deleteList.get(i));
-                }*/
                 for (int i=0;i<deleteList.size();i++){
                     OrderCarBean orderCarBean = new OrderCarBean();
                     orderCarBean.delete(deleteList.get(i), new UpdateListener() {

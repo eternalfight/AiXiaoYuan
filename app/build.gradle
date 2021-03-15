@@ -146,9 +146,9 @@ dependencies {
     //implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
 
     //debugCompile是设置仅在我们开发Debug的时候，LeakCanary才会帮我们去检测   内存泄漏
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
 
-    implementation "com.github.parse-community.Parse-SDK-Android:parse:1.26.0"
+    //implementation "com.github.parse-community.Parse-SDK-Android:parse:1.26.0"
 }
 repositories {
     mavenCentral()

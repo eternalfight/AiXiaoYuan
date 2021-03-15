@@ -13,6 +13,7 @@ import com.tita.aixiaoyuan.Adapter.GoodsSearchResultAdapter;
 import com.tita.aixiaoyuan.R;
 import com.tita.aixiaoyuan.model.User;
 import com.tita.aixiaoyuan.model.productInfoBean;
+import com.tita.aixiaoyuan.ui.DeliverActvity;
 import com.tita.aixiaoyuan.ui.ShopDetialActivity;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -63,14 +64,22 @@ public class MyPublishFragmemt extends BaseFragmentJava{
                 startActivityForResult(intent,0);
             }
         });
+        goodsSearchResultAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                mObjID = goodsSearchResultAdapter.getItem(position).getObjectId();
+                Intent intent = new Intent(getContext(), DeliverActvity.class);
+                intent.putExtra("GoodsObjectId",mObjID);
+                startActivityForResult(intent,0);
+            }
+        });
     }
     private void doSearch(){
         BmobUser user = BmobUser.getCurrentUser(User.class);
         String username = user.getUsername();
-        String bql ="select * from productInfoBean where username ='"+username+"'";
+        String bql ="select * from productInfoBean where username ='"+username+"' order by -updatedAt";
         BmobQuery<productInfoBean> query = new BmobQuery<>();
         query.setSQL(bql);
-        query.order("-updatedAt");
         query.doSQLQuery(new SQLQueryListener<productInfoBean>() {
             @Override
             public void done(BmobQueryResult<productInfoBean> result, BmobException e) {

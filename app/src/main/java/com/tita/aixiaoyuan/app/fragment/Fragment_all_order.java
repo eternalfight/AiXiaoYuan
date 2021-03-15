@@ -11,20 +11,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tita.aixiaoyuan.Adapter.OrderAdapter;
 import com.tita.aixiaoyuan.R;
-import com.tita.aixiaoyuan.model.OrderBean;
+import com.tita.aixiaoyuan.model.MyOrderBean;
+import com.tita.aixiaoyuan.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 public class Fragment_all_order extends BaseFragmentJava {
     @BindView(R.id.orderRecycleView)
     RecyclerView orderRecycleView;
-    OrderAdapter orderAdapter;
-    private OrderBean.DataBean dataBean;
-    private OrderBean orderBean;
-    private List<OrderBean.DataBean> data;
+    OrderAdapter mAdapter;
+    List<MyOrderBean> myOrderBeans = new ArrayList<>();
     @Override
     protected int setLayoutResourceID() {
         return R.layout.fragment_all_order;
@@ -32,10 +35,8 @@ public class Fragment_all_order extends BaseFragmentJava {
 
     @Override
     protected void setUpView() {
-
-
-        initData();
         initView();
+        initData();
     }
 
     @Override
@@ -67,28 +68,30 @@ public class Fragment_all_order extends BaseFragmentJava {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         orderRecycleView.setLayoutManager(manager);
-        Log.i("data", "initView: "+orderBean.getData());
-        orderAdapter = new OrderAdapter(getContext(),orderBean.getData());
-        orderRecycleView.setAdapter(orderAdapter);
+        mAdapter = new OrderAdapter(myOrderBeans);
+        orderRecycleView.setAdapter(mAdapter);
+        //mAdapter.setNewData(myOrderBeans);
+
     }
     public void initData(){
-        //orderBean = new OrderBean("1","1","0",data);
-        //OrderBean.DataBean dataBean1 = new OrderBean.DataBean("2020-10-22",115465464,111,1,"显卡",16);
-        dataBean = new OrderBean.DataBean();
-        dataBean.setCreatetime("2020-10-21");
-        dataBean.setOrderid(115465464);
-        dataBean.setPrice(12);
-        dataBean.setStatus(1);
-        dataBean.setTitle("显卡");
-        dataBean.setUid(15);
-        data = new ArrayList<>();
-        //data.add(dataBean1);
-        //dataBean = new OrderBean.DataBean("2020-10-21",115465464,12,1,"显卡",15);
-        data.add(dataBean);
-        orderBean = new OrderBean("1","1","0",data);
-
+        BmobQuery<MyOrderBean> query = new BmobQuery<>();
+        BmobUser user = BmobUser.getCurrentUser(User.class);
+        query.addWhereEqualTo("username",user.getUsername());
+        query.findObjects(new FindListener<MyOrderBean>() {
+            @Override
+            public void done(List<MyOrderBean> list, BmobException e) {
+                if (e == null){
+                    Log.i("TAG", "done: "+list.size());
+                    mAdapter.setNewData(list);
+                    mAdapter.notifyDataSetChanged();
+                }else {
+                    Log.e("TAG", "done: " +e.getMessage());
+                }
+            }
+        });
 
     }
+
 
 
 }

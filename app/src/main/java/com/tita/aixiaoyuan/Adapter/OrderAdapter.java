@@ -1,81 +1,50 @@
 package com.tita.aixiaoyuan.Adapter;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import androidx.annotation.Nullable;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.tita.aixiaoyuan.R;
-import com.tita.aixiaoyuan.model.OrderBean;
+import com.tita.aixiaoyuan.model.MyOrderBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    List<OrderBean.DataBean> data;
-    Context context;
-
-    public OrderAdapter(Context context,List<OrderBean.DataBean> data){
+public class OrderAdapter extends BaseQuickAdapter<MyOrderBean, BaseViewHolder> {
+    List<MyOrderBean> data = new ArrayList<>();
+    private String orderState;
+    private int i=0;
+    public OrderAdapter(@Nullable List<MyOrderBean> data) {
+        super(R.layout.order_list_item, data);
         this.data = data;
-        this.context = context;
     }
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.order_list_item,parent,false);
-        return new MyViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        MyViewHolder myViewHolder = (MyViewHolder) holder;
-        OrderBean.DataBean dataBean = data.get(position);
-        myViewHolder.goodsName.setText(/*dataBean.getTitle()*/"显卡");
-        int status = 1/*dataBean.getStatus()*/;
-        myViewHolder.tvBt.setText("查看订单");
-        if (status == 0){
-            myViewHolder.orderState.setText("待支付");
-            myViewHolder.tvBt.setText("取消订单");
-        } else if (status == 1) {
-            myViewHolder.orderState.setText("已取消");
-        } else if (status == 2) {
-            myViewHolder.orderState.setText("已支付");
-        }
-        myViewHolder.goodsPrice.setText(/*dataBean.getPrice()*/"111" + "元");
-    }
-
 
 
     @Override
-    public int getItemCount() {
-        if (data == null){
-            return 0;
+    protected void convert(BaseViewHolder helper, MyOrderBean item) {
+        helper.setText(R.id.order_id, "订单号：" + item.getOrderId());
+        helper.setText(R.id.tv_good_name, "" + item.getProduct_name().get(i));
+        helper.setText(R.id.tv_good_one_price, "" + item.getProduct_price().get(i) + "元");
+        helper.setText(R.id.tv_good_number, "" + item.getProduct_cnt().get(i));
+        //Glide.with(mContext).load()
+        switch (item.getOrder_status()) {
+            case 0:
+                orderState = "待付款";
+                break;
+            case 1:
+                orderState = "待发货";
+                break;
+            case 2:
+                orderState = "待收货";
+                break;
+            case 3:
+                orderState = "待评价";
+                break;
         }
-        return data.size();
+        helper.setText(R.id.order_state, "" + orderState);
+
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-        ImageView imageView;
-        TextView goodsName;
-        TextView goodsSelect;
-        TextView goodsNumber;
-        TextView goodsPrice;
-        TextView orderState;
-        TextView tvBt;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.goods_img);
-            goodsName = itemView.findViewById(R.id.tv_good_name);
-            goodsSelect = itemView.findViewById(R.id.tv_good_select);
-            goodsNumber = itemView.findViewById(R.id.tv_good_number);
-            goodsPrice = itemView.findViewById(R.id.tv_good_one_price);
-            orderState = itemView.findViewById(R.id.order_state);
-            tvBt = itemView.findViewById(R.id.tvBt);
-        }
-    }
 }
+
+

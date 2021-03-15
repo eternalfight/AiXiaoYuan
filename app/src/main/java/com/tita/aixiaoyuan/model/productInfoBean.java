@@ -14,7 +14,7 @@ public class productInfoBean extends BmobObject implements Parcelable {
     private String product_name;    //商品名称
     private String username;        //发布的用户
     private int one_category_id;    //商品类型
-    private String product_info;    //商品介绍
+    private String product_info;
     private Double price;           //价格
     private int current_cnt = 1;        //库存
     private int publish_status;     //商品发布状态
@@ -26,7 +26,7 @@ public class productInfoBean extends BmobObject implements Parcelable {
     private BmobFile picFiv;
     private BmobFile picSix;
     private List<String> PicUrl;
-    private int sellout = 0;
+    private int sellout = 0;    //商品介绍
 
     public productInfoBean(Parcel in) {
         product_id = in.readString();

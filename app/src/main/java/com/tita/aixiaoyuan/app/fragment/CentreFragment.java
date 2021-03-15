@@ -119,7 +119,7 @@ public class CentreFragment extends Fragment {
             String addr = (String) BmobUser.getObjectByKey("address");
             user_name_tv.setText(nickname);
             user_location_tv.setText(addr);
-            Log.i("TAG", "onResume: "+ addr);
+           // Log.i("TAG", "onResume: "+ addr);
             fetchUserInfo(getView());
             showHeadImg();
         } else {
@@ -134,7 +134,7 @@ public class CentreFragment extends Fragment {
             public void done(BmobUser user, BmobException e) {
                 if (e == null) {
                     final User myUser = BmobUser.getCurrentUser(User.class);
-                    JUtils.Toast("更新用户本地缓存信息成功");
+                    //JUtils.Toast("更新用户本地缓存信息成功");
                 } else {
                     Log.e("error",e.getMessage());
                     JUtils.Toast("更新用户本地缓存信息失败：" + e.getMessage());
@@ -168,7 +168,7 @@ public class CentreFragment extends Fragment {
                 icon.download(new DownloadFileListener() {
                     @Override
                     public void onProgress(Integer integer, long l) {
-                        Log.i("Username", "onProgress "+ integer);
+                        //Log.i("Username", "onProgress "+ integer);
                     }
                     @Override
                     public void done(String s, BmobException e) {

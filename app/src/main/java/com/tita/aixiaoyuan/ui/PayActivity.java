@@ -153,7 +153,6 @@ public class PayActivity extends AppCompatActivity {
             public void onSubscribe(@NonNull Disposable d) {
 
             }
-
             @Override
             public void onNext(@NonNull Integer integer) {
                 Log.i(TAG, "onNext: " +i);
@@ -219,7 +218,7 @@ public class PayActivity extends AppCompatActivity {
         pDialog1.setTitleText("购买成功！");
         pDialog1.setCancelable(false);
 
-
+        pDialog.show();
         MyOrderBean myOrderBean = new MyOrderBean();
         BmobUser user = BmobUser.getCurrentUser(User.class);
         myOrderBean.setUsername(user.getUsername());
@@ -235,14 +234,12 @@ public class PayActivity extends AppCompatActivity {
             public void done(String s, BmobException e) {
                 if(e==null){
                     doDelete();
-                    pDialog.show();
+                    pDialog.dismiss();
                 }else{
                     Log.i(TAG, "创建数据失败: " + e.getMessage());
                 }
             }
         });
-
-
     }
     int flag = 0;
     private void doDelete(){
@@ -250,9 +247,10 @@ public class PayActivity extends AppCompatActivity {
             @Override
             public void subscribe(@NonNull ObservableEmitter<Integer> emitter) throws Exception {
                 for (int i =0;i<getOrder.size();i++){
-                    delete(getOrder.get(i).getProduct_id());
-                    emitter.onNext(1);
+                    delete(getOrder.get(i).getObjectId());
+                    updateProductInfo(getOrder.get(i).getProduct_objectId(),getOrder.get(i).getProduct_amount());
                     flag++;
+                    emitter.onNext(1);
                 }
             }
         }).subscribe(new Observer<Integer>() {
@@ -263,7 +261,10 @@ public class PayActivity extends AppCompatActivity {
 
             @Override
             public void onNext(@NonNull Integer integer) {
+                Log.i(TAG, "onNext flag: " +flag+"getOrder.size():"+getOrder.size());
+
                 if (flag == getOrder.size()){
+                    pDialog1.show();
                     pDialog1.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -286,7 +287,35 @@ public class PayActivity extends AppCompatActivity {
         });
     }
 
+    private void updateProductInfo(String obj,int num){
+        productInfoBean productInfoBean =new productInfoBean();
+        BmobQuery<productInfoBean> bmobQuery = new BmobQuery<>();
+        bmobQuery.getObject(obj, new QueryListener<productInfoBean>() {
+            @Override
+            public void done(productInfoBean product, BmobException e) {
+                if (e == null) {
+                    productInfoBean.setCurrent_cnt(product.getCurrent_cnt()-num);
+                    if (product.getCurrent_cnt()-num ==0){
+                        productInfoBean.setSellout(1);
+                    }
+                    productInfoBean.setPublish_status(2);
+                    productInfoBean.update(obj,new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e == null){
+                                Log.i("TAG", "done:更新成功 " );
+                            }else {
+                                Log.e("TAG", "更新失败: " + e.getMessage());
+                            }
+                        }
+                    });
+                } else {
+                    Log.e("TAG", "更新失败: " + e.getMessage());
+                }
+            }
+        });
 
+    }
 
     private void delete(String obj){
         OrderCarBean orderCarBean = new OrderCarBean();
@@ -297,6 +326,8 @@ public class PayActivity extends AppCompatActivity {
                     Log.i("TAG", "done:删除成功 " );
                 }else {
                     Log.e("TAG", "删除失败: " + e.getMessage());
+                    pDialog1.dismiss();
+                    pDialog.dismiss();
                 }
             }
         });

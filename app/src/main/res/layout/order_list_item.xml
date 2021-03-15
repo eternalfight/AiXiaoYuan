@@ -13,6 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="订单号："
+            android:textColor="@color/black"
             android:layout_margin="4dp"
             android:paddingLeft="10dp"/>
     </RelativeLayout>
@@ -34,17 +35,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
+                android:textColor="@color/black"
+                android:id="@+id/tv_good_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_good_name"
-                android:layout_weight="6"
-                android:textSize="16sp"
-                android:text="商品名称"
                 android:layout_marginTop="10dp"
+                android:layout_weight="6"
                 android:padding="5dp"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:text="商品名称"
+                android:textSize="16sp" />
+
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -65,14 +70,16 @@
                 android:layout_weight="4"
                 android:padding="0dp"
                 android:layout_margin="5dp"
+                android:textColor="@color/black"
                 android:id="@+id/tv_good_select"
-                android:text="选择"/>
+                android:text="数量"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:layout_margin="5dp"
                 android:id="@+id/tv_good_number"
+                android:textColor="@color/black"
                 android:text="x1"/>
         </LinearLayout>
 
@@ -84,6 +91,17 @@
         android:layout_height="wrap_content"
         >
         <TextView
+            android:textColor="@color/black"
+            android:id="@+id/order_state"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:layout_alignParentRight="true"
+            android:background="#FFC107"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="待支付"/>
+        <!--<TextView
             android:id="@+id/tvBt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,18 +111,8 @@
             android:background="@color/gray"
             android:textSize="16sp"
             android:layout_alignParentEnd="true"
-            />
-        <TextView
-            android:id="@+id/order_state"
-            android:layout_margin="5dp"
-            android:padding="5dp"
-            android:layout_toLeftOf="@+id/tvBt"
-            android:background="#FFC107"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="待支付"/>
-
+            android:visibility="invisible"
+            />-->
 
     </RelativeLayout>
 
